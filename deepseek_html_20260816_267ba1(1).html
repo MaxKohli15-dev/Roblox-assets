@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hilfe - Roblox Asset Store</title>
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --line: #dce0e8;
+      --text: #1e1f28;
+      --muted: #5b5f6e;
+      --accent: #5865f2;
+      --green: #2d7d46;
+      --gold: #d9a11e;
+      --pink: #c74b66;
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand { font-weight: 800; font-size: 20px; color: var(--text); }
+    .brand span { color: var(--accent); }
+
+    nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: 0.15s;
+    }
+    nav a:hover { color: var(--text); background: var(--bg); }
+    nav a.active { color: var(--accent); background: rgba(88, 101, 242, 0.1); }
+
+    .userbox { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+    .userbox img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--line); }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 18px;
+      font-weight: 600;
+      transition: 0.15s ease;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); border-color: var(--accent); }
+    .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--muted); box-shadow: none; }
+    .btn-ghost:hover { background: var(--card); color: var(--text); border-color: var(--accent); }
+    .btn-primary { background: var(--accent); color: #fff; border: none; box-shadow: 0 4px 12px rgba(88, 101, 242, 0.25); }
+    .btn-primary:hover { filter: brightness(1.08); }
+
+    main { flex: 1; max-width: 900px; margin: 40px auto; padding: 0 24px; width: 100%; }
+
+    .page-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+    }
+    .page-card h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+    .page-card .subtitle { color: var(--muted); font-size: 16px; margin-bottom: 30px; }
+
+    .page-card h2 { font-size: 20px; margin-top: 28px; margin-bottom: 12px; color: var(--text); }
+    .page-card h2:first-of-type { margin-top: 0; }
+    .page-card h2 .icon { margin-right: 8px; }
+    .page-card p { color: var(--muted); margin-bottom: 12px; }
+    .page-card ul { color: var(--muted); padding-left: 24px; margin-bottom: 16px; }
+    .page-card ul li { margin-bottom: 8px; }
+
+    .faq-item {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .faq-item:hover { border-color: var(--accent); }
+    .faq-item .question {
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text);
+    }
+    .faq-item .question .arrow { color: var(--muted); transition: 0.15s; }
+    .faq-item.open .question .arrow { transform: rotate(180deg); }
+    .faq-item .answer {
+      display: none;
+      margin-top: 10px;
+      color: var(--muted);
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+    .faq-item.open .answer { display: block; }
+
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .help-card {
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid var(--line);
+      transition: 0.15s;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .help-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .help-card .icon { font-size: 32px; display: block; margin-bottom: 8px; }
+    .help-card .title { font-weight: 700; }
+    .help-card .desc { font-size: 13px; color: var(--muted); }
+
+    .video-container {
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 16px 0;
+      border: 1px solid var(--line);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .video-container .info { flex: 1; }
+    .video-container .info h3 { margin-bottom: 4px; }
+    .video-container .info p { color: var(--muted); font-size: 14px; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.5);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .page-card { padding: 24px; }
+      nav { gap: 4px; }
+      nav a { font-size: 12px; padding: 4px 8px; }
+      .help-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Roblox <span>Assets</span></div>
+    <nav>
+      <a href="./">🏠 Store</a>
+      <a href="./about.html">📖 Über uns</a>
+      <a href="./help.html" class="active">❓ Hilfe</a>
+      <a href="./kontakt.html">📧 Kontakt</a>
+    </nav>
+    <div class="userbox" id="userbox"></div>
+  </header>
+
+  <main>
+    <div class="page-card">
+      <h1>❓ Hilfe & Support</h1>
+      <p class="subtitle">Hier findest du Antworten auf die häufigsten Fragen</p>
+
+      <!-- Schnelle Hilfeboxen -->
+      <div class="help-grid">
+        <a href="#faq" class="help-card">
+          <span class="icon">📋</span>
+          <div class="title">FAQ</div>
+          <div class="desc">Häufig gestellte Fragen</div>
+        </a>
+        <a href="#install" class="help-card">
+          <span class="icon">📦</span>
+          <div class="title">Installation</div>
+          <div class="desc">Assets richtig installieren</div>
+        </a>
+        <a href="./kontakt.html" class="help-card">
+          <span class="icon">📧</span>
+          <div class="title">Kontakt</div>
+          <div class="desc">Direkter Support</div>
+        </a>
+        <a href="https://discord.gg/BSc9DRWRxv" target="_blank" class="help-card">
+          <span class="icon">💬</span>
+          <div class="title">Discord</div>
+          <div class="desc">Community & Hilfe</div>
+        </a>
+      </div>
+
+      <!-- Installations-Hilfe -->
+      <h2 id="install">📦 <span class="icon">Installations-Hilfe</span></h2>
+      <p>Folge dieser Schritt-für-Schritt-Anleitung, um dein Asset richtig zu installieren:</p>
+      <ol style="color:var(--muted); padding-left:24px; margin-bottom:16px;">
+        <li>📥 Lade das Asset herunter (Klick auf "Holen" im Store)</li>
+        <li>📂 Entpacke die ZIP-Datei (falls vorhanden)</li>
+        <li>📋 Kopiere die Dateien in dein Roblox-Projekt</li>
+        <li>⚙️ Importiere die Assets in dein Spiel</li>
+        <li>🎮 Teste, ob alles funktioniert</li>
+      </ol>
+
+      <div class="video-container">
+        <div class="info">
+          <h3>🎬 Video-Tutorial</h3>
+          <p>Schau dir unser ausführliches Video-Tutorial zur Installation an.</p>
+          <a href="https://www.youtube.com/watch?v=PxJVmfZXWj8" target="_blank" class="btn-primary" style="display:inline-block; margin-top:8px; text-decoration:none;">
+            ▶️ Video ansehen
+          </a>
+          <p style="font-size:12px; margin-top:6px; color:var(--muted);">
+            📌 Hinweis: Dies ist ein externes Tutorial von YouTube.
+          </p>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <h2 id="faq">📋 <span class="icon">Häufig gestellte Fragen (FAQ)</span></h2>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Wie lade ich ein Asset herunter?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          Klicke im Store auf das gewünschte Asset, dann auf den "Holen" Button. 
+          Nach erfolgreichem Download erhältst du Zugriff auf die Datei. 
+          Gehe dann auf "Download starten" oder öffne den Link im Modal.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Kann ich die Assets auch kostenlos nutzen?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          Ja! Viele unserer Assets sind komplett kostenlos. 
+          Einige Premium-Assets sind mit einem Preis gekennzeichnet. 
+          Diese bieten erweiterte Funktionen und exklusive Inhalte.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Wie gebe ich eine Bewertung ab?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          Auf der Store-Übersicht siehst du unter jedem Asset die Sterne-Bewertung. 
+          Klicke einfach auf die gewünschte Anzahl an Sternen (1-5), um deine Bewertung abzugeben. 
+          Deine Bewertung wird sofort gespeichert und hilft anderen Nutzern.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Was ist der Unterschied zwischen "Holen" und "Download"?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          "Holen" ist der erste Schritt – du fügst das Asset deiner Sammlung hinzu. 
+          Danach erscheint der "Download" Button, mit dem du die Datei tatsächlich herunterladen kannst. 
+          Einmal geholte Assets bleiben für immer in deiner Sammlung.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Kann ich meine Favoriten verwalten?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          Ja! Klicke auf das Herz-Symbol ❤️ bei einem Asset, um es zu deinen Favoriten hinzuzufügen. 
+          Über den "Favoriten"-Filter oben kannst du dann alle deine markierten Assets anzeigen lassen.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Wie erhalte ich Support bei Problemen?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          Du hast mehrere Möglichkeiten:
+          <ul style="margin-top:6px;">
+            <li>📧 Über das <a href="./kontakt.html" style="color:var(--accent);">Kontaktformular</a></li>
+            <li>💬 Auf unserem <a href="https://discord.gg/BSc9DRWRxv" target="_blank" style="color:var(--accent);">Discord-Server</a></li>
+            <li>📖 In dieser Hilfe-Sektion</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Werden die Assets regelmäßig aktualisiert?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          Ja! Wir arbeiten kontinuierlich an Verbesserungen. 
+          Neue Assets werden wöchentlich hinzugefügt und bestehende Assets regelmäßig überarbeitet. 
+          Sieh dir den "Neu"-Badge bei frischen Assets an.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="question">
+          <span>Kann ich meine eigenen Assets vorschlagen?</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="answer">
+          Auf jeden Fall! Wir freuen uns über Vorschläge und Ideen. 
+          Nutze einfach das <a href="./kontakt.html" style="color:var(--accent);">Kontaktformular</a> 
+          und teile uns deine Wünsche mit. Wir nehmen jedes Feedback ernst!
+        </div>
+      </div>
+
+      <h2>🔧 <span class="icon">Weitere Hilfe</span></h2>
+      <p>
+        Konntest du deine Frage nicht finden? Kein Problem! 
+        Kontaktiere uns direkt über das <a href="./kontakt.html" style="color:var(--accent);">Kontaktformular</a> 
+        oder besuche uns auf <a href="https://discord.gg/BSc9DRWRxv" target="_blank" style="color:var(--accent);">Discord</a>.
+        Wir helfen dir gerne weiter!
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Roblox Assets Store | <a href="./about.html">Über uns</a> | <a href="./help.html">Hilfe</a> | <a href="./kontakt.html">Kontakt</a>
+  </footer>
+
+  <script>
+    let user = null;
+    try {
+      const saved = localStorage.getItem("discordUser");
+      if (saved) { const s = JSON.parse(saved); user = s.user; }
+    } catch (e) {}
+
+    const box = document.getElementById("userbox");
+    if (user) {
+      box.innerHTML = `${user.avatar ? `<img src="${user.avatar}">` : ""}<span>${user.username || "User"}</span>`;
+    } else {
+      box.innerHTML = `<button class="btn-ghost" onclick="location.href='./'">🔑 Zum Store</button>`;
+    }
+
+    // FAQ - Auf-/Zuklappen
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
