@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roblox Asset Store</title>
+<style>
+  :root {
+    --bg:#0e0f13; --card:#191b22; --line:#262933;
+    --text:#e7e9ee; --muted:#8b90a0; --accent:#5865f2; --green:#3ba55d; --gold:#f4c430;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--text); line-height:1.5; overflow-x:hidden; }
+  #bgCanvas { position:fixed; inset:0; z-index:-2; }
+  body::after { content:""; position:fixed; inset:0; z-index:-1; background:radial-gradient(circle at 50% 0%, rgba(88,101,242,.10), transparent 60%), rgba(14,15,19,.72); pointer-events:none; }
+  header { display:flex; justify-content:space-between; align-items:center; padding:16px 24px;
+    border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(14,15,19,.82); backdrop-filter:blur(10px); z-index:10; }
+  .brand { font-weight:800; font-size:19px; letter-spacing:.3px; } .brand span { color:var(--accent); }
+  .userbox { display:flex; align-items:center; gap:10px; font-size:14px; } .userbox img { width:30px; height:30px; border-radius:50%; }
+  button { font:inherit; cursor:pointer; border:none; border-radius:8px; padding:9px 16px; font-weight:600; transition:.15s; }
+  .btn-primary { background:var(--accent); color:#fff; } .btn-primary:hover { filter:brightness(1.12); transform:translateY(-1px); }
+  .btn-ghost { background:transparent; color:var(--muted); border:1px solid var(--line); }
+  .btn-ghost:hover { color:var(--text); border-color:var(--accent); }
+  .btn-get { background:var(--green); color:#fff; width:100%; } .btn-get:hover { filter:brightness(1.12); }
+  main { max-width:1150px; margin:0 auto; padding:32px 24px 90px; position:relative; }
+  h2 { font-size:22px; margin-bottom:18px; }
+  .toolbar { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:20px; }
+  .search { flex:1; min-width:220px; }
+  .cats { display:flex; gap:8px; flex-wrap:wrap; }
+  .chip { background:var(--card); border:1px solid var(--line); color:var(--muted); padding:7px 14px; border-radius:20px; font-size:13px; font-weight:600; cursor:pointer; }
+  .chip.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:18px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; position:relative; transition:.18s; }
+  .card:hover { transform:translateY(-3px); border-color:#39405a; box-shadow:0 10px 30px rgba(0,0,0,.35); }
+  .card .thumb { aspect-ratio:16/10; background:#101218 center/cover no-repeat; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:13px; }
+  .card .body { padding:14px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .card h3 { font-size:16px; } .card p { font-size:13px; color:var(--muted); flex:1; }
+  .meta { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted); }
+  .price { font-weight:700; font-size:15px; color:var(--text); }
+  .badge-new { position:absolute; top:10px; left:10px; background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:3px 9px; border-radius:6px; }
+  .cat-tag { position:absolute; top:10px; right:10px; background:rgba(0,0,0,.55); color:#cfd3df; font-size:11px; padding:3px 9px; border-radius:6px; }
+  .stars { display:flex; gap:2px; }
+  .stars .s { font-size:16px; line-height:1; color:#3a3f4b; cursor:pointer; background:none; padding:0; }
+  .stars .s.on { color:var(--gold); }
+  .rate-info { font-size:11px; color:var(--muted); }
+  .got-tag { background:rgba(59,165,93,.15); color:var(--green); font-size:12px; padding:7px 10px; border-radius:6px; text-align:center; font-weight:600; }
+  .got-tag a { color:var(--green); }
+  .admin-row { display:flex; gap:12px; }
+  .edit { background:transparent; color:#7aa2ff; font-size:12px; padding:4px 0; }
+  .del { background:transparent; color:#e0576f; font-size:12px; padding:4px 0; }
+  .admin-panel { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; margin-bottom:34px; }
+  .admin-panel h2 { font-size:17px; margin-bottom:16px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .form-grid .full { grid-column:1/-1; }
+  input,textarea { width:100%; background:var(--bg); border:1px solid var(--line); color:var(--text); border-radius:8px; padding:10px 12px; font:inherit; }
+  textarea { resize:vertical; min-height:60px; }
+  label { font-size:12px; color:var(--muted); display:block; margin-bottom:5px; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .empty { color:var(--muted); text-align:center; padding:60px 0; }
+  .hidden { display:none; }
+  .note { font-size:12px; color:var(--muted); margin-top:10px; }
+  #spinner { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(14,15,19,.6); z-index:100; }
+  .loader { width:44px; height:44px; border:4px solid var(--line); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  #toasts { position:fixed; bottom:80px; left:50%; transform:translateX(-50%); z-index:200; display:flex; flex-direction:column; gap:8px; }
+  .toast { background:var(--card); border:1px solid var(--line); padding:11px 18px; border-radius:10px; font-size:14px; box-shadow:0 8px 24px rgba(0,0,0,.4); animation:pop .2s; }
+  .toast.err { border-color:#e0576f; } .toast.ok { border-color:var(--green); }
+  @keyframes pop { from { opacity:0; transform:translateY(8px); } }
+  #contactBtn { position:fixed; bottom:20px; right:20px; z-index:50; background:var(--accent); color:#fff;
+    box-shadow:0 6px 20px rgba(0,0,0,.4); border-radius:30px; padding:12px 18px; font-size:14px; }
+  #contactBtn:hover { filter:brightness(1.12); transform:translateY(-2px); }
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<header>
+  <div class="brand">Roblox <span>Assets</span></div>
+  <div class="userbox" id="userbox"></div>
+</header>
+
+<main>
+  <div class="admin-panel hidden" id="adminPanel">
+    <h2 id="adminTitle">Asset hinzufuegen (Admin)</h2>
+    <div class="form-grid">
+      <div class="full"><label>Titel</label><input id="f-title" placeholder="z.B. Modern Shop GUI" /></div>
+      <div class="full"><label>Beschreibung</label><textarea id="f-desc" placeholder="Kurze Beschreibung"></textarea></div>
+      <div><label>Kategorie</label><input id="f-cat" placeholder="z.B. GUI, Script, Model" /></div>
+      <div><label>Preis-Text (nur Anzeige)</label><input id="f-price" placeholder="Gratis" /></div>
+      <div><label>Bild-URL (optional)</label><input id="f-image" placeholder="https://..." /></div>
+      <div><label>Download-/Asset-Link</label><input id="f-download" placeholder="google.com oder https://..." /></div>
+      <div class="full"><button class="btn-primary" id="btn-add">Speichern</button>
+        <button class="btn-ghost hidden" id="btn-cancel">Abbrechen</button></div>
+    </div>
+    <p class="note">Assets werden in der Cloud (Supabase) gespeichert - alle Besucher auf allen Geraeten sehen sie sofort.</p>
+  </div>
+
+  <div class="admin-panel hidden" id="gate" style="text-align:center;"></div>
+
+  <div id="storeArea">
+    <h2 id="storeTitle">Store</h2>
+    <div class="toolbar" id="toolbar">
+      <input class="search" id="search" placeholder="Suchen..." />
+      <div class="cats" id="cats"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty hidden" id="empty">Keine Assets gefunden.</div>
+  </div>
+</main>
+
+<div id="toasts"></div>
+<button id="contactBtn">Probleme? Kontaktiere uns</button>
+<div id="spinner"><div class="loader"></div></div>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+/* =================== KONFIGURATION =================== */
+const DISCORD_CLIENT_ID = "1538208123159052388";
+const ADMIN_DISCORD_ID  = "1440385339377188884";
+const GUILD_ID          = "1538537152202412164";
+const INVITE_URL        = "https://discord.gg/BSc9DRWRxv";
+const WEBHOOK_URL       = "https://discord.com/api/webhooks/1538537425918238732/Bs1hfi5ugIvjJfDRFZZbvFMr4QOhYDdXjMj67j8VDYxUeBnfVmaeoHwMav-U6sGtSUcj";
+const CONTACT_FORM_URL  = "https://forms.gle/xqnBnrBVsk4DDBsM9";
+const SUPABASE_URL      = "https://oxmgdhbuqweqdgfjuiyt.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_In9D3KU5eWDnJGXStApKYw_RYyca7xg";
+/* ==================================================== */
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const REDIRECT_URI = location.origin + location.pathname;
+let user=null, isMember=false, assets=[], editingId=null, activeCat="Alle", searchTerm="";
+
+const got = () => { try { return JSON.parse(localStorage.getItem("got"))||[]; } catch { return []; } };
+const myRatings = () => { try { return JSON.parse(localStorage.getItem("ratings"))||{}; } catch { return {}; } };
+const isAdmin = () => user && user.id === ADMIN_DISCORD_ID;
+const esc = (s) => (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fixUrl = (u) => { u=(u||"").trim(); if(!u) return ""; return /^https?:\/\//i.test(u)?u:"https://"+u; };
+const isNew = (a) => a.created_at && (Date.now()-new Date(a.created_at).getTime()) < 7*24*3600*1000;
+const spinner = (on) => document.getElementById("spinner").classList.toggle("hidden", !on);
+
+function toast(msg, type) {
+  const t = document.createElement("div");
+  t.className = "toast " + (type||"");
+  t.textContent = msg;
+  document.getElementById("toasts").appendChild(t);
+  setTimeout(()=>t.remove(), 3500);
+}
+
+/* ---------- Supabase ---------- */
+async function loadAssets() {
+  const { data, error } = await sb.from("assets").select("*").order("id",{ascending:false});
+  spinner(false);
+  if (error) { toast("Laden fehlgeschlagen: "+error.message,"err"); console.error(error); return; }
+  assets = data||[];
+  render();
+}
+sb.channel("assets-changes").on("postgres_changes",{event:"*",schema:"public",table:"assets"},loadAssets).subscribe();
+
+/* ---------- Discord Login ---------- */
+function login() {
+  const u = new URL("https://discord.com/oauth2/authorize");
+  u.searchParams.set("client_id", DISCORD_CLIENT_ID);
+  u.searchParams.set("redirect_uri", REDIRECT_URI);
+  u.searchParams.set("response_type", "token");
+  u.searchParams.set("scope", "identify guilds");
+  location.href = u.toString();
+}
+function logout() { localStorage.removeItem("discordUser"); user=null; isMember=false; render(); }
+
+async function handleAuthRedirect() {
+  const saved = localStorage.getItem("discordUser");
+  if (saved) { const s=JSON.parse(saved); user=s.user; isMember=s.isMember; return; }
+  if (location.hash.includes("access_token")) {
+    const p = new URLSearchParams(location.hash.slice(1));
+    const token = p.get("access_token");
+    history.replaceState({}, "", REDIRECT_URI);
+    if (token) {
+      const r = await fetch("https://discord.com/api/users/@me",{headers:{Authorization:"Bearer "+token}});
+      const d = await r.json();
+      user = { id:d.id, username:d.username, avatar:d.avatar?`https://cdn.discordapp.com/avatars/${d.id}/${d.avatar}.png`:null };
+      try {
+        const gr = await fetch("https://discord.com/api/users/@me/guilds",{headers:{Authorization:"Bearer "+token}});
+        const guilds = await gr.json();
+        isMember = Array.isArray(guilds) && guilds.some(g=>g.id===GUILD_ID);
+      } catch { isMember=false; }
+      localStorage.setItem("discordUser", JSON.stringify({user,isMember}));
+    }
+  }
+}
+
+/* ---------- Render ---------- */
+function render() {
+  const box = document.getElementById("userbox");
+  if (user) {
+    box.innerHTML = `${user.avatar?`<img src="${user.avatar}">`:""}
+      <span>${esc(user.username)}${isAdmin()?" - Admin":""}</span>
+      <button class="btn-ghost" id="btn-logout">Logout</button>`;
+  } else {
+    box.innerHTML = `<button class="btn-primary" id="btn-login">Mit Discord anmelden</button>`;
+  }
+  document.getElementById("adminPanel").classList.toggle("hidden", !(isAdmin() && isMember));
+
+  const gate = document.getElementById("gate");
+  const store = document.getElementById("storeArea");
+  const hasAccess = user && isMember;
+
+  if (!hasAccess) {
+    store.classList.add("hidden");
+    if (!user) {
+      gate.innerHTML = `<h2>Zugriff gesperrt</h2><p>Melde dich mit Discord an, um auf die Assets zuzugreifen.</p>
+        <button class="btn-primary" id="gate-login">Mit Discord anmelden</button>`;
+    } else {
+      gate.innerHTML = `<h2>Erst dem Server beitreten</h2><p>Du musst Mitglied unseres Discord-Servers sein.</p>
+        <div class="row" style="justify-content:center;">
+          <button class="btn-primary" id="gate-join">Server beitreten</button>
+          <button class="btn-ghost" id="gate-recheck">Ich bin beigetreten - neu pruefen</button>
+        </div>`;
+    }
+    gate.classList.remove("hidden"); wire(); return;
+  }
+  gate.classList.add("hidden"); store.classList.remove("hidden");
+
+  // Kategorien
+  const cats = ["Alle", ...Array.from(new Set(assets.map(a=>a.category).filter(Boolean)))];
+  document.getElementById("cats").innerHTML = cats.map(c=>
+    `<button class="chip ${c===activeCat?"active":""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+
+  // Filtern
+  const owned = got(), mine = myRatings();
+  const term = searchTerm.toLowerCase();
+  const list = assets.filter(a=>{
+    const catOk = activeCat==="Alle" || a.category===activeCat;
+    const sOk = !term || (a.title||"").toLowerCase().includes(term) || (a.description||"").toLowerCase().includes(term);
+    return catOk && sOk;
+  });
+
+  const g = document.getElementById("grid");
+  document.getElementById("empty").classList.toggle("hidden", list.length>0);
+  g.innerHTML = list.map(a=>{
+    const has = owned.includes(a.id);
+    const dl = fixUrl(a.download_url);
+    const cnt = a.rating_count||0, avg = cnt ? (a.rating_sum/cnt) : 0;
+    const myVote = mine[a.id]||0;
+    const stars = [1,2,3,4,5].map(n=>
+      `<button class="s ${ (myVote?myVote:Math.round(avg))>=n?"on":""}" data-star="${n}" data-asset="${a.id}">*</button>`).join("");
+    return `<div class="card">
+      ${isNew(a)?`<span class="badge-new">NEU</span>`:""}
+      ${a.category?`<span class="cat-tag">${esc(a.category)}</span>`:""}
+      <div class="thumb" style="${a.image_url?`background-image:url('${esc(a.image_url)}')`:""}">${a.image_url?"":"Kein Bild"}</div>
+      <div class="body">
+        <h3>${esc(a.title)}</h3>
+        <p>${esc(a.description||"")}</p>
+        <div class="stars">${stars}</div>
+        <div class="rate-info">${cnt?`${avg.toFixed(1)} / 5 (${cnt})`:"Noch keine Bewertung"}</div>
+        <div class="meta"><span class="price">${esc(a.price||"Gratis")}</span><span>${a.downloads||0}x geholt</span></div>
+        ${has
+          ? `<div class="got-tag">Geholt - <a href="${dl}" target="_blank" rel="noopener">Download</a></div>`
+          : `<button class="btn-get" data-get="${a.id}">Holen</button>`}
+        ${isAdmin()?`<div class="admin-row"><button class="edit" data-edit="${a.id}">bearbeiten</button><button class="del" data-del="${a.id}">loeschen</button></div>`:""}
+      </div></div>`;
+  }).join("");
+  wire();
+}
+
+/* ---------- Verkabeln ---------- */
+function wire() {
+  const $ = (id)=>document.getElementById(id);
+  $("btn-login")    && ($("btn-login").onclick=login);
+  $("gate-login")   && ($("gate-login").onclick=login);
+  $("btn-logout")   && ($("btn-logout").onclick=logout);
+  $("gate-join")    && ($("gate-join").onclick=()=>window.open(INVITE_URL,"_blank"));
+  $("gate-recheck") && ($("gate-recheck").onclick=login);
+  $("btn-add")      && ($("btn-add").onclick=saveAsset);
+  $("btn-cancel")   && ($("btn-cancel").onclick=cancelEdit);
+  document.querySelectorAll("[data-get]").forEach(b=>b.onclick=()=>getAsset(Number(b.dataset.get)));
+  document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>delAsset(Number(b.dataset.del)));
+  document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>startEdit(Number(b.dataset.edit)));
+  document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{activeCat=b.dataset.cat; render();});
+  document.querySelectorAll("[data-star]").forEach(b=>b.onclick=()=>rate(Number(b.dataset.asset),Number(b.dataset.star)));
+  const s=$("search"); if(s){ s.value=searchTerm; s.oninput=()=>{searchTerm=s.value; render(); s2=document.getElementById("search"); s2&&s2.focus();}; }
+}
+let s2;
+
+/* ---------- Aktionen ---------- */
+async function getAsset(id) {
+  if (!user) return toast("Bitte zuerst anmelden.","err");
+  const a = assets.find(x=>x.id===id); if(!a) return;
+  const owned = got();
+  if (!owned.includes(id)) { owned.push(id); localStorage.setItem("got",JSON.stringify(owned)); }
+  // Zaehler +1
+  try { await sb.from("assets").update({ downloads:(a.downloads||0)+1 }).eq("id",id); } catch(e){ console.error(e); }
+  // Discord Embed
+  try {
+    await fetch(WEBHOOK_URL,{ method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ embeds:[{
+        title:"Neues Asset geholt",
+        description:`**${user.username}** hat **${a.title}** geholt`,
+        color:0x5865f2,
+        thumbnail: a.image_url?{url:fixUrl(a.image_url)}:undefined,
+        fields:[ a.category?{name:"Kategorie",value:a.category,inline:true}:null,
+                 {name:"Preis",value:a.price||"Gratis",inline:true} ].filter(Boolean),
+        timestamp:new Date().toISOString()
+      }]}) });
+  } catch(e){ console.error("Webhook",e); }
+  toast("Freigeschaltet - viel Spass!","ok");
+  loadAssets();
+}
+
+async function rate(id, stars) {
+  const mine = myRatings();
+  const a = assets.find(x=>x.id===id); if(!a) return;
+  const prev = mine[id]||0;
+  let sum=(a.rating_sum||0), cnt=(a.rating_count||0);
+  if (prev===0) { sum+=stars; cnt+=1; } else { sum+=(stars-prev); } // Stimme aendern
+  mine[id]=stars; localStorage.setItem("ratings",JSON.stringify(mine));
+  const { error } = await sb.from("assets").update({ rating_sum:sum, rating_count:cnt }).eq("id",id);
+  if (error) return toast("Bewertung fehlgeschlagen: "+error.message,"err");
+  toast("Danke fuer deine Bewertung!","ok");
+  loadAssets();
+}
+
+function startEdit(id) {
+  const a = assets.find(x=>x.id===id); if(!a) return;
+  editingId=id;
+  document.getElementById("f-title").value=a.title||"";
+  document.getElementById("f-desc").value=a.description||"";
+  document.getElementById("f-cat").value=a.category||"";
+  document.getElementById("f-price").value=a.price||"";
+  document.getElementById("f-image").value=a.image_url||"";
+  document.getElementById("f-download").value=a.download_url||"";
+  document.getElementById("adminTitle").textContent="Asset bearbeiten (Admin)";
+  document.getElementById("btn-add").textContent="Aktualisieren";
+  document.getElementById("btn-cancel").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function cancelEdit() {
+  editingId=null;
+  ["f-title","f-desc","f-cat","f-price","f-image","f-download"].forEach(i=>document.getElementById(i).value="");
+  document.getElementById("adminTitle").textContent="Asset hinzufuegen (Admin)";
+  document.getElementById("btn-add").textContent="Speichern";
+  document.getElementById("btn-cancel").classList.add("hidden");
+}
+
+async function saveAsset() {
+  const title=document.getElementById("f-title").value.trim();
+  const download=document.getElementById("f-download").value.trim();
+  if (!title || !download) return toast("Titel und Download-Link sind Pflicht.","err");
+  const payload = {
+    title,
+    description:document.getElementById("f-desc").value.trim(),
+    category:document.getElementById("f-cat").value.trim()||null,
+    price:document.getElementById("f-price").value.trim()||"Gratis",
+    image_url:fixUrl(document.getElementById("f-image").value.trim()),
+    download_url:fixUrl(download),
+  };
+  spinner(true);
+  let error;
+  if (editingId) { ({error} = await sb.from("assets").update(payload).eq("id",editingId)); }
+  else { ({error} = await sb.from("assets").insert(payload)); }
+  spinner(false);
+  if (error) return toast("Speichern fehlgeschlagen: "+error.message,"err");
+  toast(editingId?"Asset aktualisiert.":"Asset gespeichert.","ok");
+  cancelEdit();
+  loadAssets();
+}
+
+async function delAsset(id) {
+  if(!confirm("Wirklich loeschen?"))return;
+  const { error } = await sb.from("assets").delete().eq("id",id);
+  if (error) return toast("Loeschen fehlgeschlagen: "+error.message,"err");
+  toast("Geloescht.","ok"); loadAssets();
+}
+
+/* ---------- Kontakt ---------- */
+document.getElementById("contactBtn").onclick=()=>window.open(CONTACT_FORM_URL,"_blank");
+
+/* ---------- Animierter Block-Hintergrund ---------- */
+(function bg(){
+  const c=document.getElementById("bgCanvas"), x=c.getContext("2d");
+  const cols=["#5865f2","#3ba55d","#e0576f","#f4c430","#7aa2ff"];
+  let W,H,blocks;
+  function init(){ W=c.width=innerWidth; H=c.height=innerHeight;
+    blocks=Array.from({length:26},()=>({ x:Math.random()*W, y:Math.random()*H,
+      s:18+Math.random()*34, r:Math.random()*Math.PI, vr:(Math.random()-.5)*.01,
+      vy:.2+Math.random()*.5, col:cols[(Math.random()*cols.length)|0], a:.05+Math.random()*.08 })); }
+  function draw(){ x.clearRect(0,0,W,H);
+    for(const b of blocks){ b.y-=b.vy; b.r+=b.vr; if(b.y< -b.s){ b.y=H+b.s; b.x=Math.random()*W; }
+      x.save(); x.translate(b.x,b.y); x.rotate(b.r); x.globalAlpha=b.a; x.fillStyle=b.col;
+      x.fillRect(-b.s/2,-b.s/2,b.s,b.s); x.restore(); }
+    requestAnimationFrame(draw); }
+  addEventListener("resize",init); init(); draw();
+})();
+
+/* ---------- Start ---------- */
+(async()=>{ await handleAuthRedirect(); render(); await loadAssets(); })();
+</script>
+</body>
+</html>
