@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roblox Asset Store</title>
   <style>
-    /* ——— NEUES HELLES THEMA ——— */
+    /* ——— HELLES THEMA ——— */
     :root {
       --bg: #f4f6fa;
       --card: #ffffff;
@@ -33,7 +33,6 @@
       overflow-x: hidden;
     }
 
-    /* Hintergrund: dezent animierte Blöcke (hell) */
     #bgCanvas {
       position: fixed;
       inset: 0;
@@ -61,9 +60,7 @@
       letter-spacing: 0.2px;
       color: var(--text);
     }
-    .brand span {
-      color: var(--accent);
-    }
+    .brand span { color: var(--accent); }
 
     .userbox {
       display: flex;
@@ -91,7 +88,6 @@
       box-shadow: var(--shadow);
       border: 1px solid var(--line);
     }
-
     button:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -128,9 +124,17 @@
       border: none;
       box-shadow: 0 4px 12px rgba(45, 125, 70, 0.2);
     }
-    .btn-get:hover {
-      filter: brightness(1.08);
+    .btn-get:hover { filter: brightness(1.08); }
+
+    .btn-help {
+      background: #f0c27f;
+      color: #1e1f28;
+      border: none;
+      box-shadow: 0 4px 12px rgba(240, 194, 127, 0.3);
+      width: 100%;
+      margin-top: 6px;
     }
+    .btn-help:hover { filter: brightness(1.06); }
 
     main {
       max-width: 1200px;
@@ -140,12 +144,7 @@
       z-index: 1;
     }
 
-    h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 18px;
-      color: var(--text);
-    }
+    h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: var(--text); }
 
     .announce {
       background: #eef0fa;
@@ -179,10 +178,7 @@
       font: inherit;
       box-shadow: var(--shadow);
     }
-    .search:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
+    .search:focus { outline: none; border-color: var(--accent); }
 
     select {
       background: var(--card);
@@ -194,12 +190,7 @@
       box-shadow: var(--shadow);
     }
 
-    .cats {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
+    .cats { display: flex; gap: 8px; flex-wrap: wrap; }
     .chip {
       background: var(--card);
       border: 1px solid var(--line);
@@ -211,16 +202,8 @@
       cursor: pointer;
       box-shadow: var(--shadow);
     }
-    .chip.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-    .chip.fav.active {
-      background: var(--pink);
-      border-color: var(--pink);
-      color: #fff;
-    }
+    .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .chip.fav.active { background: var(--pink); border-color: var(--pink); color: #fff; }
 
     .grid {
       display: grid;
@@ -256,24 +239,9 @@
       cursor: pointer;
     }
 
-    .card .body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .card h3 {
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .card p {
-      font-size: 14px;
-      color: var(--muted);
-      flex: 1;
-    }
+    .card .body { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .card h3 { font-size: 17px; font-weight: 700; cursor: pointer; }
+    .card p { font-size: 14px; color: var(--muted); flex: 1; }
 
     .meta {
       display: flex;
@@ -282,12 +250,7 @@
       font-size: 13px;
       color: var(--muted);
     }
-
-    .price {
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--text);
-    }
+    .price { font-weight: 700; font-size: 16px; color: var(--text); }
 
     .badge-new {
       position: absolute;
@@ -301,7 +264,6 @@
       border-radius: 30px;
       box-shadow: 0 2px 8px rgba(88, 101, 242, 0.25);
     }
-
     .cat-tag {
       position: absolute;
       top: 12px;
@@ -333,15 +295,9 @@
       border: 1px solid var(--line);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
-    .fav-btn.on {
-      color: var(--pink);
-      border-color: var(--pink);
-    }
+    .fav-btn.on { color: var(--pink); border-color: var(--pink); }
 
-    .stars {
-      display: flex;
-      gap: 3px;
-    }
+    .stars { display: flex; gap: 3px; }
     .stars .s {
       font-size: 20px;
       line-height: 1;
@@ -352,14 +308,9 @@
       border: none;
       box-shadow: none;
     }
-    .stars .s.on {
-      color: var(--gold);
-    }
+    .stars .s.on { color: var(--gold); }
 
-    .rate-info {
-      font-size: 12px;
-      color: var(--muted);
-    }
+    .rate-info { font-size: 12px; color: var(--muted); }
 
     .got-tag {
       background: #e6f3ea;
@@ -371,17 +322,9 @@
       font-weight: 600;
       border: 1px solid #b8d9c5;
     }
-    .got-tag a {
-      color: var(--green);
-      font-weight: 700;
-      text-decoration: underline;
-    }
+    .got-tag a { color: var(--green); font-weight: 700; text-decoration: underline; }
 
-    .admin-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 4px;
-    }
+    .admin-row { display: flex; gap: 12px; margin-top: 4px; }
     .edit {
       background: transparent;
       color: var(--accent);
@@ -390,11 +333,7 @@
       border: none;
       box-shadow: none;
     }
-    .edit:hover {
-      background: none;
-      transform: none;
-      color: #3b48c7;
-    }
+    .edit:hover { background: none; transform: none; color: #3b48c7; }
     .del {
       background: transparent;
       color: var(--pink);
@@ -403,11 +342,7 @@
       border: none;
       box-shadow: none;
     }
-    .del:hover {
-      background: none;
-      transform: none;
-      color: #a0324b;
-    }
+    .del:hover { background: none; transform: none; color: #a0324b; }
 
     .admin-panel {
       background: var(--card);
@@ -418,17 +353,10 @@
       box-shadow: var(--shadow);
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .form-grid .full {
-      grid-column: 1/-1;
-    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-grid .full { grid-column: 1/-1; }
 
-    input,
-    textarea {
+    input, textarea {
       width: 100%;
       background: var(--bg);
       border: 1px solid var(--line);
@@ -437,35 +365,13 @@
       padding: 12px 14px;
       font: inherit;
     }
-    textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
+    textarea { resize: vertical; min-height: 70px; }
 
-    label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 6px;
-    }
+    label { font-size: 13px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 6px; }
 
-    .row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .empty {
-      color: var(--muted);
-      text-align: center;
-      padding: 60px 0;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    .empty { color: var(--muted); text-align: center; padding: 60px 0; }
+    .hidden { display: none !important; }
 
     .note {
       font-size: 13px;
@@ -476,7 +382,7 @@
       border-radius: 12px;
     }
 
-    /* Modal */
+    /* ——— NEUES MODAL MIT ALLEN INFOS ——— */
     #modal {
       position: fixed;
       inset: 0;
@@ -521,16 +427,9 @@
       border: 2px solid transparent;
       transition: 0.1s;
     }
-    .modal-thumbs img.active {
-      border-color: var(--accent);
-    }
+    .modal-thumbs img.active { border-color: var(--accent); }
 
-    .modal-body {
-      padding: 6px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    .modal-body { padding: 6px 24px 24px; display: flex; flex-direction: column; gap: 12px; }
     .modal-close {
       float: right;
       background: transparent;
@@ -540,38 +439,19 @@
       border: none;
       box-shadow: none;
     }
-    .modal-close:hover {
-      background: none;
-      transform: none;
-      color: var(--text);
-    }
+    .modal-close:hover { background: none; transform: none; color: var(--text); }
 
-    #spinner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      background: transparent;
-      z-index: 100;
-      pointer-events: none;
+    /* Hilfe-Button mit Hinweis */
+    .help-note {
+      font-size: 13px;
+      color: var(--muted);
+      background: #f8f5f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      border-left: 4px solid #f0c27f;
+      margin: 6px 0;
     }
-    .loader {
-      width: 36px;
-      height: 36px;
-      border: 4px solid var(--line);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    .help-note strong { color: var(--text); }
 
     #toasts {
       position: fixed;
@@ -592,19 +472,9 @@
       box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
       animation: pop 0.2s;
     }
-    .toast.err {
-      border-color: var(--pink);
-    }
-    .toast.ok {
-      border-color: var(--green);
-    }
-
-    @keyframes pop {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-    }
+    .toast.err { border-color: var(--pink); }
+    .toast.ok { border-color: var(--green); }
+    @keyframes pop { from { opacity: 0; transform: translateY(10px); } }
 
     .fab {
       position: fixed;
@@ -616,22 +486,9 @@
       background: var(--card);
       border: 1px solid var(--line);
     }
-    #contactBtn {
-      bottom: 24px;
-      right: 24px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-    }
-    #contactBtn:hover {
-      filter: brightness(1.08);
-    }
-    #musicBtn {
-      bottom: 24px;
-      left: 24px;
-      background: var(--card);
-      border: 1px solid var(--line);
-    }
+    #contactBtn { bottom: 24px; right: 24px; background: var(--accent); color: #fff; border: none; }
+    #contactBtn:hover { filter: brightness(1.08); }
+    #musicBtn { bottom: 24px; left: 24px; background: var(--card); border: 1px solid var(--line); }
 
     .version-badge {
       position: fixed;
@@ -652,8 +509,7 @@
 </head>
 <body>
 
-  <div class="version-badge">VERSION 12 – hell &amp; knöpfig</div>
-
+  <div class="version-badge">VERSION 13 – DETAIL-MENU + HILFE</div>
   <canvas id="bgCanvas"></canvas>
 
   <header>
@@ -662,7 +518,6 @@
   </header>
 
   <main>
-    <!-- Admin Panel -->
     <div class="admin-panel hidden" id="adminPanel">
       <h2 id="adminTitle">Asset hinzufügen</h2>
       <div class="form-grid">
@@ -685,10 +540,8 @@
       <p class="note">Assets &amp; Banner werden in der Cloud gespeichert – alle sehen sie sofort.</p>
     </div>
 
-    <!-- Gate -->
     <div class="admin-panel hidden" id="gate" style="text-align:center;"></div>
 
-    <!-- Store -->
     <div id="storeArea">
       <div class="announce hidden" id="announceBanner"></div>
       <h2 id="storeTitle">Store</h2>
@@ -713,7 +566,7 @@
   <button id="musicBtn" class="fab hidden">🎵 Musik an</button>
 
   <script type="module">
-    // ===== KONFIGURATION (unverändert) =====
+    // ===== KONFIGURATION =====
     const DISCORD_CLIENT_ID = "1538208123159052388";
     const ADMIN_DISCORD_ID = "1440385339377188884";
     const GUILD_ID = "1538537152202412164";
@@ -722,21 +575,15 @@
     const CONTACT_FORM_URL = "https://forms.gle/xqnBnrBVsk4DDBsM9";
     const SUPABASE_URL = "https://oxmgdhbuqweqdgfjuiyt.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_In9D3KU5eWDnJGXStApKYw_RYyca7xg";
+    const HELP_VIDEO_URL = "https://www.youtube.com/watch?v=PxJVmfZXWj8";
     const MUSIC_URL = "";
     const BG_IMAGE_URL = "";
     // ======================================
 
     let sb = null;
     const REDIRECT_URI = location.origin + location.pathname;
-    let user = null,
-      isMember = false,
-      assets = [],
-      editingId = null,
-      activeCat = "Alle",
-      searchTerm = "",
-      sortBy = "neu",
-      favOnly = false,
-      announcement = "";
+    let user = null, isMember = false, assets = [], editingId = null,
+        activeCat = "Alle", searchTerm = "", sortBy = "neu", favOnly = false, announcement = "";
 
     const got = () => { try { return JSON.parse(localStorage.getItem("got")) || []; } catch { return []; } };
     const favs = () => { try { return JSON.parse(localStorage.getItem("favs")) || []; } catch { return []; } };
@@ -756,39 +603,30 @@
     }
 
     let audioCtx;
-
     function blip() {
       try {
         audioCtx = audioCtx || new(window.AudioContext || window.webkitAudioContext)();
-        const o = audioCtx.createOscillator(),
-          g = audioCtx.createGain();
-        o.connect(g);
-        g.connect(audioCtx.destination);
-        o.type = "sine";
-        o.frequency.value = 660;
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.type = "sine"; o.frequency.value = 660;
         g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
         g.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.02);
         o.frequency.exponentialRampToValueAtTime(990, audioCtx.currentTime + 0.12);
         g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.25);
-        o.start();
-        o.stop(audioCtx.currentTime + 0.26);
+        o.start(); o.stop(audioCtx.currentTime + 0.26);
       } catch (e) {}
     }
 
-    // Musik (deaktiviert wenn keine URL)
     let music, musicOn = false;
-
     function setupMusic() {
       if (!MUSIC_URL) return;
       const btn = document.getElementById("musicBtn");
       btn.classList.remove("hidden");
-      music = new Audio(MUSIC_URL);
-      music.loop = true;
-      music.volume = 0.15;
+      music = new Audio(MUSIC_URL); music.loop = true; music.volume = 0.15;
       btn.onclick = () => {
         musicOn = !musicOn;
-        if (musicOn) { music.play().catch(() => {}); btn.textContent = "🎵 Musik aus"; } else { music.pause();
-          btn.textContent = "🎵 Musik an"; }
+        if (musicOn) { music.play().catch(() => {}); btn.textContent = "🎵 Musik aus"; }
+        else { music.pause(); btn.textContent = "🎵 Musik an"; }
       };
     }
 
@@ -800,13 +638,11 @@
           sb.from("assets").select("*").order("id", { ascending: false }),
           sb.from("settings").select("announcement").eq("id", 1).maybeSingle()
         ]);
-        if (e1) { toast("Laden fehlgeschlagen: " + e1.message, "err");
-          console.error(e1); }
+        if (e1) { toast("Laden fehlgeschlagen: " + e1.message, "err"); console.error(e1); }
         assets = as || [];
         announcement = (st && st.announcement) || "";
         render();
-      } catch (e) { toast("Verbindung fehlgeschlagen: " + e.message, "err");
-        console.error(e); }
+      } catch (e) { toast("Verbindung fehlgeschlagen: " + e.message, "err"); console.error(e); }
     }
 
     // ===== Discord =====
@@ -818,17 +654,11 @@
       u.searchParams.set("scope", "identify guilds");
       location.href = u.toString();
     }
-
-    function logout() { localStorage.removeItem("discordUser");
-      user = null;
-      isMember = false;
-      render(); }
+    function logout() { localStorage.removeItem("discordUser"); user = null; isMember = false; render(); }
 
     async function handleAuthRedirect() {
       const saved = localStorage.getItem("discordUser");
-      if (saved) { const s = JSON.parse(saved);
-        user = s.user;
-        isMember = s.isMember; return; }
+      if (saved) { const s = JSON.parse(saved); user = s.user; isMember = s.isMember; return; }
       if (location.hash.includes("access_token")) {
         const p = new URLSearchParams(location.hash.slice(1));
         const token = p.get("access_token");
@@ -862,8 +692,7 @@
 
       document.getElementById("adminPanel").classList.toggle("hidden", !(isAdmin() && isMember));
 
-      const gate = document.getElementById("gate"),
-        store = document.getElementById("storeArea");
+      const gate = document.getElementById("gate"), store = document.getElementById("storeArea");
       const hasAccess = user && isMember;
       if (!hasAccess) {
         store.classList.add("hidden");
@@ -877,21 +706,16 @@
       gate.classList.add("hidden");
       store.classList.remove("hidden");
 
-      // Banner
       const ab = document.getElementById("announceBanner");
-      if (announcement) { ab.innerHTML = `<span>📢</span><span>${esc(announcement)}</span>`;
-        ab.classList.remove("hidden"); } else ab.classList.add("hidden");
+      if (announcement) { ab.innerHTML = `<span>📢</span><span>${esc(announcement)}</span>`; ab.classList.remove("hidden"); }
+      else ab.classList.add("hidden");
 
-      // Kategorien
       const cats = ["Alle", ...Array.from(new Set(assets.map(a => a.category).filter(Boolean)))];
       document.getElementById("cats").innerHTML =
         cats.map(c => `<button class="chip ${c === activeCat ? "active" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("") +
         `<button class="chip fav ${favOnly ? "active" : ""}" id="favChip">❤️ Favoriten</button>`;
 
-      const owned = got(),
-        mine = myRatings(),
-        fv = favs(),
-        term = searchTerm.toLowerCase();
+      const owned = got(), mine = myRatings(), fv = favs(), term = searchTerm.toLowerCase();
       let list = assets.filter(a => {
         const catOk = activeCat === "Alle" || a.category === activeCat;
         const sOk = !term || (a.title || "").toLowerCase().includes(term) || (a.description || "").toLowerCase().includes(term);
@@ -906,13 +730,9 @@
       const g = document.getElementById("grid");
       document.getElementById("empty").classList.toggle("hidden", list.length > 0);
       g.innerHTML = list.map(a => {
-        const has = owned.includes(a.id),
-          fav = fv.includes(a.id),
-          dl = fixUrl(a.download_url);
-        const cnt = a.rating_count || 0,
-          avg = cnt ? (a.rating_sum / cnt) : 0,
-          myVote = mine[a.id] || 0;
-        const stars = [1, 2, 3, 4, 5].map(n =>
+        const has = owned.includes(a.id), fav = fv.includes(a.id), dl = fixUrl(a.download_url);
+        const cnt = a.rating_count || 0, avg = cnt ? (a.rating_sum / cnt) : 0, myVote = mine[a.id] || 0;
+        const stars = [1,2,3,4,5].map(n =>
           `<button class="s ${(myVote ? myVote : Math.round(avg)) >= n ? "on" : ""}" data-star="${n}" data-asset="${a.id}">★</button>`
         ).join("");
         return `<div class="card">
@@ -934,31 +754,65 @@
       wire();
     }
 
-    // ===== Modal =====
+    // ===== NEUES MODAL mit allen Infos + Hilfe-Button =====
     function openDetail(id) {
       const a = assets.find(x => x.id === id);
       if (!a) return;
-      const g = galleryOf(a),
-        owned = got(),
-        has = owned.includes(id),
-        dl = fixUrl(a.download_url);
-      const cnt = a.rating_count || 0,
-        avg = cnt ? (a.rating_sum / cnt) : 0;
+      const g = galleryOf(a), owned = got(), has = owned.includes(id), dl = fixUrl(a.download_url);
+      const cnt = a.rating_count || 0, avg = cnt ? (a.rating_sum / cnt) : 0;
+      const createdAt = a.created_at ? new Date(a.created_at).toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }) : 'Unbekannt';
+
       const m = document.getElementById("modal");
       m.innerHTML = `<div class="modal-box">
-        <div style="padding:14px 20px 0;"><button class="modal-close" id="m-close">✕</button></div>
+        <div style="padding:14px 20px 0; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:18px;">📦 ${esc(a.title)}</span>
+          <button class="modal-close" id="m-close">✕</button>
+        </div>
         <div class="modal-main" id="m-main" style="${g[0] ? `background-image:url('${g[0]}')` : ""}">${g[0] ? "" : "🖼️ kein Bild"}</div>
         ${g.length > 1 ? `<div class="modal-thumbs">${g.map((u, i) => `<img src="${u}" data-img="${u}" class="${i === 0 ? "active" : ""}">`).join("")}</div>` : ""}
         <div class="modal-body">
-          <h2 style="margin:0;">${esc(a.title)}</h2>
-          <div class="meta"><span class="price" style="font-size:18px;">${esc(a.price || "Gratis")}</span><span>${a.downloads || 0}x geholt · ${cnt ? avg.toFixed(1) + " / 5" : "keine Bewertung"}</span></div>
-          ${a.category ? `<div class="rate-info">📂 Kategorie: ${esc(a.category)}</div>` : ""}
-          <p style="color:var(--muted);">${esc(a.description || "")}</p>
-          ${has ? `<a class="btn-primary" style="text-align:center;text-decoration:none;padding:12px;display:block;" href="${dl}" target="_blank" rel="noopener">⬇️ Download öffnen</a>` : `<button class="btn-get" data-get="${a.id}">📦 Holen</button>`}
+          <!-- Alle Infos -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px 14px; font-size:14px; background:var(--bg); padding:12px 16px; border-radius:12px;">
+            <span><strong>Kategorie:</strong> ${a.category ? esc(a.category) : '—'}</span>
+            <span><strong>Preis:</strong> ${esc(a.price || 'Gratis')}</span>
+            <span><strong>Bewertung:</strong> ${cnt ? `${avg.toFixed(1)} / 5 (${cnt})` : '⭐ keine'}</span>
+            <span><strong>Geholt:</strong> ${a.downloads || 0}x</span>
+            <span style="grid-column:1/-1;"><strong>Erstellt:</strong> ${createdAt}</span>
+            ${a.download_url ? `<span style="grid-column:1/-1;"><strong>Download:</strong> <a href="${fixUrl(a.download_url)}" target="_blank" rel="noopener" style="color:var(--accent);">${esc(a.download_url)}</a></span>` : ''}
+          </div>
+
+          <p style="color:var(--muted); margin-top:4px;">${esc(a.description || 'Keine Beschreibung verfügbar.')}</p>
+
+          <!-- HILFE-BUTTON + HINWEIS -->
+          <div style="margin-top:8px;">
+            <button class="btn-help" id="helpBtn">🆘 Hilfe beim Installieren</button>
+            <div class="help-note">
+              <strong>📌 Hinweis:</strong> Dies ist nicht unser Video, sondern ein externes Tutorial von YouTube.
+            </div>
+          </div>
+
+          <!-- Aktion: Holen / Download -->
+          ${has ? `<a class="btn-primary" style="text-align:center;text-decoration:none;padding:12px;display:block;margin-top:8px;" href="${dl}" target="_blank" rel="noopener">⬇️ Download öffnen</a>` : `<button class="btn-get" data-get="${a.id}" style="margin-top:8px;">📦 Asset holen</button>`}
         </div>
       </div>`;
       m.classList.remove("hidden");
       m.onclick = (e) => { if (e.target === m) closeModal(); };
+
+      // Hilfe-Button: öffnet Video in neuem Tab
+      document.getElementById("helpBtn")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.open(HELP_VIDEO_URL, "_blank");
+      });
+
+      // Thumbnail-Klicks
+      document.querySelectorAll("[data-img]").forEach(el => {
+        el.onclick = (e) => {
+          const main = document.getElementById("m-main");
+          if (main) { main.style.backgroundImage = "url('" + el.dataset.img + "')"; }
+          document.querySelectorAll("[data-img]").forEach(x => x.classList.remove("active"));
+          el.classList.add("active");
+        };
+      });
     }
 
     function closeModal() { document.getElementById("modal").classList.add("hidden"); }
@@ -966,39 +820,29 @@
     // ===== Wire =====
     function wire() {
       const sel = document.getElementById("sort");
-      if (sel) { sel.value = sortBy;
-        sel.onchange = () => { sortBy = sel.value;
-          render(); }; }
+      if (sel) { sel.value = sortBy; sel.onchange = () => { sortBy = sel.value; render(); }; }
       const s = document.getElementById("search");
-      if (s) { s.value = searchTerm;
-        s.oninput = () => { searchTerm = s.value;
-          render(); }; }
+      if (s) { s.value = searchTerm; s.oninput = () => { searchTerm = s.value; render(); }; }
     }
 
     // ===== Globaler Event-Delegator =====
     document.addEventListener("click", (e) => {
       const t = e.target.closest("button,[data-detail],[data-img]");
       if (!t) return;
-      const id = t.id,
-        d = t.dataset || {};
+      const id = t.id, d = t.dataset || {};
 
-      // Login / Logout / Gate
       if (id === "btn-login" || id === "gate-login" || id === "gate-recheck") return login();
       if (id === "btn-logout") return logout();
       if (id === "gate-join") return window.open(INVITE_URL, "_blank");
-
-      // Admin
       if (id === "btn-add") return saveAsset();
       if (id === "btn-cancel") return cancelEdit();
       if (id === "btn-announce") return saveAnnouncement();
-
-      // Filter & Favoriten
       if (id === "favChip") { favOnly = !favOnly; return render(); }
       if (id === "contactBtn") return window.open(CONTACT_FORM_URL, "_blank");
       if (id === "musicBtn") return;
-
-      // Modal
       if (id === "m-close") return closeModal();
+      if (id === "helpBtn") return; // wird separat behandelt
+
       if (d.img) {
         const main = document.getElementById("m-main");
         if (main) { main.style.backgroundImage = "url('" + d.img + "')";
@@ -1007,9 +851,7 @@
         return;
       }
 
-      // Asset Aktionen
-      if (d.get) { getAsset(Number(d.get));
-        const m = document.getElementById("modal"); if (m && !m.classList.contains("hidden")) closeModal(); return; }
+      if (d.get) { getAsset(Number(d.get)); const m = document.getElementById("modal"); if (m && !m.classList.contains("hidden")) closeModal(); return; }
       if (d.del) return delAsset(Number(d.del));
       if (d.edit) return startEdit(Number(d.edit));
       if (d.fav) { e.stopPropagation(); return toggleFav(Number(d.fav)); }
@@ -1020,12 +862,9 @@
 
     // ===== Aktionen =====
     function toggleFav(id) {
-      const f = favs();
-      const i = f.indexOf(id);
-      if (i < 0) f.push(id);
-      else f.splice(i, 1);
-      localStorage.setItem("favs", JSON.stringify(f));
-      render();
+      const f = favs(); const i = f.indexOf(id);
+      if (i < 0) f.push(id); else f.splice(i, 1);
+      localStorage.setItem("favs", JSON.stringify(f)); render();
     }
 
     async function getAsset(id) {
@@ -1034,8 +873,7 @@
       const a = assets.find(x => x.id === id);
       if (!a) return;
       const owned = got();
-      if (!owned.includes(id)) { owned.push(id);
-        localStorage.setItem("got", JSON.stringify(owned)); }
+      if (!owned.includes(id)) { owned.push(id); localStorage.setItem("got", JSON.stringify(owned)); }
       blip();
       try { await sb.from("assets").update({ downloads: (a.downloads || 0) + 1 }).eq("id", id); } catch (e) { console.error(e); }
       sendWebhook({ title: "Neues Asset geholt", description: `**${user.username}** hat **${a.title}** geholt`, color: 0x5865f2, thumbnail: a.image_url ? { url: fixUrl(a.image_url) } : undefined, fields: [a.category ? { name: "Kategorie", value: a.category, inline: true } : null, { name: "Preis", value: a.price || "Gratis", inline: true }].filter(Boolean), timestamp: new Date().toISOString() });
@@ -1045,16 +883,12 @@
 
     async function rate(id, stars) {
       if (!sb) return toast("Cloud lädt noch, kurz warten...", "err");
-      const mine = myRatings(),
-        a = assets.find(x => x.id === id);
+      const mine = myRatings(), a = assets.find(x => x.id === id);
       if (!a) return;
       const prev = mine[id] || 0;
-      let sum = (a.rating_sum || 0),
-        cnt = (a.rating_count || 0);
-      if (prev === 0) { sum += stars;
-        cnt += 1; } else { sum += (stars - prev); }
-      mine[id] = stars;
-      localStorage.setItem("ratings", JSON.stringify(mine));
+      let sum = (a.rating_sum || 0), cnt = (a.rating_count || 0);
+      if (prev === 0) { sum += stars; cnt += 1; } else { sum += (stars - prev); }
+      mine[id] = stars; localStorage.setItem("ratings", JSON.stringify(mine));
       const { error } = await sb.from("assets").update({ rating_sum: sum, rating_count: cnt }).eq("id", id);
       if (error) return toast("Bewertung fehlgeschlagen: " + error.message, "err");
       sendWebhook({ title: "Neue Bewertung", description: `**${user ? user.username : "Jemand"}** hat **${a.title}** mit ${stars}/5 bewertet`, color: 0xf4c430, timestamp: new Date().toISOString() });
@@ -1081,7 +915,7 @@
 
     function cancelEdit() {
       editingId = null;
-      ["f-title", "f-desc", "f-cat", "f-price", "f-image", "f-download", "f-images"].forEach(i => document.getElementById(i).value = "");
+      ["f-title","f-desc","f-cat","f-price","f-image","f-download","f-images"].forEach(i => document.getElementById(i).value = "");
       document.getElementById("adminTitle").textContent = "➕ Asset hinzufügen";
       document.getElementById("btn-add").textContent = "Speichern";
       document.getElementById("btn-cancel").classList.add("hidden");
@@ -1094,8 +928,7 @@
       if (!title || !download) return toast("⚠️ Titel und Download-Link sind Pflicht.", "err");
       const images = document.getElementById("f-images").value.split(",").map(s => fixUrl(s.trim())).filter(Boolean).join(",");
       const payload = {
-        title,
-        description: document.getElementById("f-desc").value.trim(),
+        title, description: document.getElementById("f-desc").value.trim(),
         category: document.getElementById("f-cat").value.trim() || null,
         price: document.getElementById("f-price").value.trim() || "Gratis",
         image_url: fixUrl(document.getElementById("f-image").value.trim()),
@@ -1103,11 +936,11 @@
         images: images || null
       };
       let error;
-      if (editingId) { ({ error } = await sb.from("assets").update(payload).eq("id", editingId)); } else { ({ error } = await sb.from("assets").insert(payload)); }
+      if (editingId) { ({ error } = await sb.from("assets").update(payload).eq("id", editingId)); }
+      else { ({ error } = await sb.from("assets").insert(payload)); }
       if (error) return toast("Speichern fehlgeschlagen: " + error.message, "err");
       toast(editingId ? "✅ Asset aktualisiert." : "✅ Asset gespeichert.", "ok");
-      cancelEdit();
-      loadAll();
+      cancelEdit(); loadAll();
     }
 
     async function saveAnnouncement() {
@@ -1115,8 +948,7 @@
       const val = document.getElementById("f-announce").value.trim();
       const { error } = await sb.from("settings").upsert({ id: 1, announcement: val });
       if (error) return toast("Banner fehlgeschlagen: " + error.message, "err");
-      toast("📢 Banner gespeichert.", "ok");
-      loadAll();
+      toast("📢 Banner gespeichert.", "ok"); loadAll();
     }
 
     async function delAsset(id) {
@@ -1124,8 +956,7 @@
       if (!confirm("Wirklich löschen?")) return;
       const { error } = await sb.from("assets").delete().eq("id", id);
       if (error) return toast("Löschen fehlgeschlagen: " + error.message, "err");
-      toast("🗑️ Gelöscht.", "ok");
-      loadAll();
+      toast("🗑️ Gelöscht.", "ok"); loadAll();
     }
 
     // ===== Musik =====
@@ -1133,46 +964,31 @@
 
     // ===== Hintergrund =====
     (function bg() {
-      const c = document.getElementById("bgCanvas"),
-        x = c.getContext("2d");
+      const c = document.getElementById("bgCanvas"), x = c.getContext("2d");
       const cols = ["#cfd7f0", "#b8c7e6", "#a8b8db", "#c2d0e8", "#d6def2"];
       let W, H, blocks;
-
       function init() {
-        W = c.width = innerWidth;
-        H = c.height = innerHeight;
+        W = c.width = innerWidth; H = c.height = innerHeight;
         blocks = Array.from({ length: 28 }, () => ({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          s: 20 + Math.random() * 40,
-          r: Math.random() * Math.PI,
-          vr: (Math.random() - 0.5) * 0.01,
-          vy: 0.15 + Math.random() * 0.4,
-          col: cols[(Math.random() * cols.length) | 0],
+          x: Math.random() * W, y: Math.random() * H, s: 20 + Math.random() * 40,
+          r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.01,
+          vy: 0.15 + Math.random() * 0.4, col: cols[(Math.random() * cols.length) | 0],
           a: 0.2 + Math.random() * 0.2
         }));
       }
-
       function draw() {
         x.clearRect(0, 0, W, H);
         for (const b of blocks) {
-          b.y -= b.vy;
-          b.r += b.vr;
-          if (b.y < -b.s) { b.y = H + b.s;
-            b.x = Math.random() * W; }
-          x.save();
-          x.translate(b.x, b.y);
-          x.rotate(b.r);
-          x.globalAlpha = b.a;
-          x.fillStyle = b.col;
+          b.y -= b.vy; b.r += b.vr;
+          if (b.y < -b.s) { b.y = H + b.s; b.x = Math.random() * W; }
+          x.save(); x.translate(b.x, b.y); x.rotate(b.r);
+          x.globalAlpha = b.a; x.fillStyle = b.col;
           x.fillRect(-b.s / 2, -b.s / 2, b.s, b.s);
           x.restore();
         }
         requestAnimationFrame(draw);
       }
-      addEventListener("resize", init);
-      init();
-      draw();
+      addEventListener("resize", init); init(); draw();
     })();
 
     // ===== Supabase Init =====
@@ -1185,8 +1001,7 @@
           .on("postgres_changes", { event: "*", schema: "public", table: "settings" }, loadAll)
           .subscribe();
         await loadAll();
-      } catch (e) { console.error("Supabase Fehler:", e);
-        toast("Cloud nicht erreichbar.", "err"); }
+      } catch (e) { console.error("Supabase Fehler:", e); toast("Cloud nicht erreichbar.", "err"); }
     }
 
     // ===== Start =====
