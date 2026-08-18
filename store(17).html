@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roblox Asset Store</title>
+  <style>
+    /* ——— HELLES THEMA ——— */
+    :root {
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --line: #dce0e8;
+      --text: #1e1f28;
+      --muted: #5b5f6e;
+      --accent: #5865f2;
+      --green: #2d7d46;
+      --gold: #d9a11e;
+      --pink: #c74b66;
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: 0.3;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0.2px;
+      color: var(--text);
+    }
+    .brand span { color: var(--accent); }
+
+    /* ——— NAVIGATION ——— */
+    nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: 0.15s;
+    }
+    nav a:hover {
+      color: var(--text);
+      background: var(--bg);
+    }
+    nav a.active {
+      color: var(--accent);
+      background: rgba(88, 101, 242, 0.1);
+    }
+
+    .userbox {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .userbox img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 18px;
+      font-weight: 600;
+      transition: 0.15s ease;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      border-color: var(--accent);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.25);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      border-color: var(--accent);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      box-shadow: none;
+    }
+    .btn-ghost:hover {
+      background: var(--card);
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .btn-get {
+      background: var(--green);
+      color: #fff;
+      width: 100%;
+      border: none;
+      box-shadow: 0 4px 12px rgba(45, 125, 70, 0.2);
+    }
+    .btn-get:hover { filter: brightness(1.08); }
+
+    .btn-help {
+      background: #f0c27f;
+      color: #1e1f28;
+      border: none;
+      box-shadow: 0 4px 12px rgba(240, 194, 127, 0.3);
+      width: 100%;
+      margin-top: 6px;
+    }
+    .btn-help:hover { filter: brightness(1.06); }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 24px 90px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 { font-size: 22px; font-weight: 700; margin-bottom: 18px; color: var(--text); }
+
+    .announce {
+      background: #eef0fa;
+      border: 1px solid #cdd2e6;
+      border-radius: 14px;
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--text);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 14px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      box-shadow: var(--shadow);
+    }
+    .search:focus { outline: none; border-color: var(--accent); }
+
+    select {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 10px 16px;
+      font: inherit;
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+
+    .cats { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .chip.fav.active { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: 0.2s;
+      box-shadow: var(--shadow);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+      border-color: var(--accent);
+    }
+
+    .card .thumb {
+      aspect-ratio: 16/10;
+      background: #eef0f5 center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .card .body { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .card h3 { font-size: 17px; font-weight: 700; cursor: pointer; }
+    .card p { font-size: 14px; color: var(--muted); flex: 1; }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .price { font-weight: 700; font-size: 16px; color: var(--text); }
+
+    .badge-new {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 30px;
+      box-shadow: 0 2px 8px rgba(88, 101, 242, 0.25);
+    }
+    .cat-tag {
+      position: absolute;
+      top: 12px;
+      right: 50px;
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--muted);
+      font-size: 11px;
+      padding: 3px 12px;
+      border-radius: 30px;
+      backdrop-filter: blur(2px);
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      font-size: 18px;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      border: 1px solid var(--line);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .fav-btn.on { color: var(--pink); border-color: var(--pink); }
+
+    .stars { display: flex; gap: 3px; }
+    .stars .s {
+      font-size: 20px;
+      line-height: 1;
+      color: #ccd0db;
+      cursor: pointer;
+      background: none;
+      padding: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .stars .s.on { color: var(--gold); }
+
+    .rate-info { font-size: 12px; color: var(--muted); }
+
+    .got-tag {
+      background: #e6f3ea;
+      color: var(--green);
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 30px;
+      text-align: center;
+      font-weight: 600;
+      border: 1px solid #b8d9c5;
+    }
+    .got-tag a { color: var(--green); font-weight: 700; text-decoration: underline; }
+
+    .admin-row { display: flex; gap: 12px; margin-top: 4px; } .pin { background:transparent; color:var(--gold); font-size:13px; padding:4px 0; border:none; box-shadow:none; } .pin:hover { background:none; transform:none; }
+    .edit {
+      background: transparent;
+      color: var(--accent);
+      font-size: 13px;
+      padding: 4px 0;
+      border: none;
+      box-shadow: none;
+    }
+    .edit:hover { background: none; transform: none; color: #3b48c7; }
+    .del {
+      background: transparent;
+      color: var(--pink);
+      font-size: 13px;
+      padding: 4px 0;
+      border: none;
+      box-shadow: none;
+    }
+    .del:hover { background: none; transform: none; color: #a0324b; }
+
+    .admin-panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-grid .full { grid-column: 1/-1; }
+
+    input, textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+    }
+    textarea { resize: vertical; min-height: 70px; }
+
+    label { font-size: 13px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 6px; }
+
+    .row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    .empty { color: var(--muted); text-align: center; padding: 60px 0; }
+    .hidden { display: none !important; }
+
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 14px;
+      background: var(--bg);
+      padding: 10px 16px;
+      border-radius: 12px;
+    }
+
+    /* ——— MODAL ——— */
+    #modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      max-width: 740px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.1);
+    }
+    .modal-main {
+      aspect-ratio: 16/9;
+      background: #eef0f5 center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+    }
+    .modal-thumbs {
+      display: flex;
+      gap: 10px;
+      padding: 14px 20px;
+      flex-wrap: wrap;
+    }
+    .modal-thumbs img {
+      width: 72px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.1s;
+    }
+    .modal-thumbs img.active { border-color: var(--accent); }
+
+    .modal-body { padding: 6px 24px 24px; display: flex; flex-direction: column; gap: 12px; }
+    .modal-close {
+      float: right;
+      background: transparent;
+      color: var(--muted);
+      font-size: 28px;
+      padding: 0 8px;
+      border: none;
+      box-shadow: none;
+    }
+    .modal-close:hover { background: none; transform: none; color: var(--text); }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 14px;
+      font-size: 14px;
+      background: var(--bg);
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+    .info-grid .full { grid-column: 1/-1; }
+    .info-grid strong { color: var(--text); }
+
+    .help-note {
+      font-size: 13px;
+      color: var(--muted);
+      background: #f8f5f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      border-left: 4px solid #f0c27f;
+      margin: 6px 0;
+    }
+    .help-note strong { color: var(--text); }
+
+    .feature-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 4px 0;
+    }
+    .feature-badge {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .feature-badge.verified { border-color: var(--accent); color: var(--accent); background: rgba(88,101,242,0.06); }
+    .feature-badge.popular { border-color: var(--gold); color: var(--gold); background: rgba(217,161,30,0.06); }
+    .feature-badge.new { border-color: var(--green); color: var(--green); background: rgba(45,125,70,0.06); }
+
+    .compat {
+      display: flex;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 8px 14px;
+      border-radius: 10px;
+      flex-wrap: wrap;
+    }
+    .compat span { display: flex; align-items: center; gap: 4px; }
+    .compat .yes { color: var(--green); }
+    .compat .no { color: var(--pink); }
+
+    #toasts {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 12px 22px;
+      border-radius: 60px;
+      font-size: 14px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+      animation: pop 0.2s;
+    }
+    .toast.err { border-color: var(--pink); }
+    .toast.ok { border-color: var(--green); }
+    @keyframes pop { from { opacity: 0; transform: translateY(10px); } }
+
+    .fab {
+      position: fixed;
+      z-index: 50;
+      border-radius: 60px;
+      padding: 12px 22px;
+      font-size: 14px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+    #contactBtn { bottom: 24px; right: 24px; background: var(--accent); color: #fff; border: none; }
+    #contactBtn:hover { filter: brightness(1.08); }
+    #musicBtn { bottom: 24px; left: 24px; background: var(--card); border: 1px solid var(--line); }
+
+    .version-badge {
+      position: fixed;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 18px;
+      border-radius: 0 0 30px 30px;
+      z-index: 9999;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 12px rgba(45, 125, 70, 0.2);
+    }
+
+    @media (max-width: 600px) {
+      header { flex-wrap: wrap; gap: 10px; }
+      nav { flex-wrap: wrap; }
+      nav a { font-size: 12px; padding: 4px 10px; }
+      .userbox { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="version-badge">VERSION 15 – REPORT + PIN + PROFIL + CODE</div>
+  <canvas id="bgCanvas"></canvas>
+
+  <header>
+    <div class="brand">Roblox <span>Assets</span></div>
+
+    <!-- ===== NAVIGATION - RELATIVE LINKS (FUNKTIONIERT IMMER) ===== -->
+    <nav>
+      <a href="./" class="active">🏠 Store</a>
+      <a href="./about.html">📖 Über uns</a>
+      <a href="./help.html">❓ Hilfe</a>
+      <a href="./kontakt.html">📧 Kontakt</a>
+    </nav>
+
+    <div class="userbox" id="userbox"></div>
+  </header>
+
+  <main>
+    <div class="admin-panel hidden" id="adminPanel">
+      <h2 id="adminTitle">Asset hinzufügen</h2>
+      <div class="form-grid">
+        <div class="full"><label>Titel *</label><input id="f-title" placeholder="z.B. Modern Shop GUI" /></div>
+        <div class="full"><label>Beschreibung</label><textarea id="f-desc" placeholder="Kurze Beschreibung"></textarea></div>
+        <div><label>Kategorie</label><input id="f-cat" placeholder="z.B. GUI, Script" /></div>
+        <div><label>Preis (Anzeige)</label><input id="f-price" placeholder="Gratis" /></div>
+        <div><label>Hauptbild (URL)</label><input id="f-image" placeholder="https://..." /></div>
+        <div><label>Download-Link *</label><input id="f-download" placeholder="https://..." /></div>
+        <div class="full"><label>Galerie (URLs, kommagetrennt)</label><input id="f-images" placeholder="https://bild1.png, https://bild2.png" /></div>
+        <div class="full" style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn-primary" id="btn-add">Speichern</button>
+          <button class="btn-ghost hidden" id="btn-cancel">Abbrechen</button>
+        </div>
+      </div>
+      <div class="row" style="border-top:1px solid var(--line); padding-top:18px; margin-top:20px;">
+        <div style="flex:1; min-width:240px;"><label>News-Banner (leer = aus)</label><input id="f-announce" placeholder="z.B. Neue Assets sind da!" /></div>
+        <div style="display:flex; align-items:flex-end;"><button class="btn-ghost" id="btn-announce">Banner speichern</button></div>
+        <div style="flex:1; min-width:240px;"><label>Zugangscode zum Holen (leer = aus)</label><input id="f-code" placeholder="z.B. VIP2025" /></div>
+        <div style="display:flex; align-items:flex-end;"><button class="btn-ghost" id="btn-code">Code speichern</button></div>
+      </div>
+      <p class="note">Assets &amp; Banner werden in der Cloud gespeichert – alle sehen sie sofort.</p>
+    </div>
+
+    <div class="admin-panel hidden" id="gate" style="text-align:center;"></div>
+
+    <div id="storeArea">
+      <div class="announce hidden" id="announceBanner"></div>
+      <h2 id="storeTitle">Store</h2>
+      <div class="toolbar" id="toolbar">
+        <input class="search" id="search" placeholder="Suchen..." />
+        <select id="sort">
+          <option value="neu">Neueste</option>
+          <option value="beliebt">Beliebteste (Sterne)</option>
+          <option value="geholt">Meist geholt</option>
+        </select>
+        <div class="cats" id="cats"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="empty hidden" id="empty">Keine Assets gefunden.</div>
+    </div>
+  </main>
+
+  <div id="modal" class="hidden"></div>
+  <div id="toasts"></div>
+
+  <!-- Kontakt-Button (unten rechts) - RELATIVER LINK -->
+  <a href="./kontakt.html" style="text-decoration:none;">
+    <button id="contactBtn" class="fab">💬 Kontakt</button>
+  </a>
+  <button id="musicBtn" class="fab hidden">🎵 Musik an</button>
+
+  <script type="module">
+    // ===== KONFIGURATION =====
+    const DISCORD_CLIENT_ID = "1538208123159052388";
+    const ADMIN_DISCORD_ID = "1440385339377188884";
+    const GUILD_ID = "1538537152202412164";
+    const INVITE_URL = "https://discord.gg/BSc9DRWRxv";
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1538537425918238732/Bs1hfi5ugIvjJfDRFZZbvFMr4QOhYDdXjMj67j8VDYxUeBnfVmaeoHwMav-U6sGtSUcj";
+    const SUPABASE_URL = "https://oxmgdhbuqweqdgfjuiyt.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_In9D3KU5eWDnJGXStApKYw_RYyca7xg";
+    const HELP_VIDEO_URL = "https://www.youtube.com/watch?v=PxJVmfZXWj8";
+    const MUSIC_URL = "";
+    const BG_IMAGE_URL = "";
+    // ======================================
+
+    let sb = null;
+    const REDIRECT_URI = location.origin + location.pathname;
+    let user = null, isMember = false, assets = [], editingId = null,
+        activeCat = "Alle", searchTerm = "", sortBy = "neu", favOnly = false, announcement = "", unlockCode = "";
+
+    const got = () => { try { return JSON.parse(localStorage.getItem("got")) || []; } catch { return []; } };
+    const favs = () => { try { return JSON.parse(localStorage.getItem("favs")) || []; } catch { return []; } };
+    const myRatings = () => { try { return JSON.parse(localStorage.getItem("ratings")) || {}; } catch { return {}; } };
+    const isAdmin = () => user && user.id === ADMIN_DISCORD_ID;
+    const esc = (s) => (s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const fixUrl = (u) => { u = (u || "").trim(); if (!u) return ""; return /^https?:\/\//i.test(u) ? u : "https://" + u; };
+    const isNew = (a) => a.created_at && (Date.now() - new Date(a.created_at).getTime()) < 7 * 24 * 3600 * 1000;
+    const galleryOf = (a) => [a.image_url, ...(a.images ? a.images.split(",") : [])].map(fixUrl).filter(Boolean);
+
+    function toast(msg, type) {
+      const t = document.createElement("div");
+      t.className = "toast " + (type || "");
+      t.textContent = msg;
+      document.getElementById("toasts").appendChild(t);
+      setTimeout(() => t.remove(), 3800);
+    }
+
+    let audioCtx;
+    function blip() {
+      try {
+        audioCtx = audioCtx || new(window.AudioContext || window.webkitAudioContext)();
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.type = "sine"; o.frequency.value = 660;
+        g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.02);
+        o.frequency.exponentialRampToValueAtTime(990, audioCtx.currentTime + 0.12);
+        g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.25);
+        o.start(); o.stop(audioCtx.currentTime + 0.26);
+      } catch (e) {}
+    }
+
+    let music, musicOn = false;
+    function setupMusic() {
+      if (!MUSIC_URL) return;
+      const btn = document.getElementById("musicBtn");
+      btn.classList.remove("hidden");
+      music = new Audio(MUSIC_URL); music.loop = true; music.volume = 0.15;
+      btn.onclick = () => {
+        musicOn = !musicOn;
+        if (musicOn) { music.play().catch(() => {}); btn.textContent = "🎵 Musik aus"; }
+        else { music.pause(); btn.textContent = "🎵 Musik an"; }
+      };
+    }
+
+    // ===== Supabase =====
+    async function loadAll() {
+      if (!sb) return;
+      try {
+        const [{ data: as, error: e1 }, { data: st }] = await Promise.all([
+          sb.from("assets").select("*").order("id", { ascending: false }),
+          sb.from("settings").select("announcement,unlock_code").eq("id", 1).maybeSingle()
+        ]);
+        if (e1) { toast("Laden fehlgeschlagen: " + e1.message, "err"); console.error(e1); }
+        assets = as || [];
+        announcement = (st && st.announcement) || "";
+        unlockCode = (st && st.unlock_code) || "";
+        render();
+      } catch (e) { toast("Verbindung fehlgeschlagen: " + e.message, "err"); console.error(e); }
+    }
+
+    // ===== Discord =====
+    function login() {
+      const u = new URL("https://discord.com/oauth2/authorize");
+      u.searchParams.set("client_id", DISCORD_CLIENT_ID);
+      u.searchParams.set("redirect_uri", REDIRECT_URI);
+      u.searchParams.set("response_type", "token");
+      u.searchParams.set("scope", "identify guilds");
+      location.href = u.toString();
+    }
+    function logout() { localStorage.removeItem("discordUser"); user = null; isMember = false; render(); }
+
+    async function handleAuthRedirect() {
+      const saved = localStorage.getItem("discordUser");
+      if (saved) { const s = JSON.parse(saved); user = s.user; isMember = s.isMember; return; }
+      if (location.hash.includes("access_token")) {
+        const p = new URLSearchParams(location.hash.slice(1));
+        const token = p.get("access_token");
+        history.replaceState({}, "", REDIRECT_URI);
+        if (token) {
+          const r = await fetch("https://discord.com/api/users/@me", { headers: { Authorization: "Bearer " + token } });
+          const d = await r.json();
+          user = { id: d.id, username: d.username, avatar: d.avatar ? `https://cdn.discordapp.com/avatars/${d.id}/${d.avatar}.png` : null };
+          try {
+            const gr = await fetch("https://discord.com/api/users/@me/guilds", { headers: { Authorization: "Bearer " + token } });
+            const guilds = await gr.json();
+            isMember = Array.isArray(guilds) && guilds.some(g => g.id === GUILD_ID);
+          } catch { isMember = false; }
+          localStorage.setItem("discordUser", JSON.stringify({ user, isMember }));
+        }
+      }
+    }
+
+    async function sendWebhook(embed) {
+      try {
+        await fetch(WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ embeds: [embed] }) });
+      } catch (e) { console.error("Webhook", e); }
+    }
+
+    // ===== Render =====
+    function render() {
+      const box = document.getElementById("userbox");
+      box.innerHTML = user ?
+        `${user.avatar ? `<img src="${user.avatar}">` : ""}<span>${esc(user.username)}${isAdmin() ? " ⚡Admin" : ""}</span>${isMember ? `<button class="btn-ghost" id="btn-profile">👤 Profil</button>` : ""}<button class="btn-ghost" id="btn-logout">Logout</button>` :
+        `<button class="btn-primary" id="btn-login">🔑 Mit Discord anmelden</button>`;
+
+      document.getElementById("adminPanel").classList.toggle("hidden", !(isAdmin() && isMember));
+
+      const gate = document.getElementById("gate"), store = document.getElementById("storeArea");
+      const hasAccess = user && isMember;
+      if (!hasAccess) {
+        store.classList.add("hidden");
+        gate.innerHTML = !user ?
+          `<h2>🔐 Zugriff gesperrt</h2><p style="color:var(--muted);">Melde dich mit Discord an, um Assets zu sehen.</p><button class="btn-primary" id="gate-login">Mit Discord anmelden</button>` :
+          `<h2>🌐 Server beitreten</h2><p style="color:var(--muted);">Du musst Mitglied unseres Discord-Servers sein.</p><div class="row" style="justify-content:center;"><button class="btn-primary" id="gate-join">Server beitreten</button><button class="btn-ghost" id="gate-recheck">🔄 Neu prüfen</button></div>`;
+        gate.classList.remove("hidden");
+        wire();
+        return;
+      }
+      gate.classList.add("hidden");
+      store.classList.remove("hidden");
+
+      const ab = document.getElementById("announceBanner");
+      if (announcement) { ab.innerHTML = `<span>📢</span><span>${esc(announcement)}</span>`; ab.classList.remove("hidden"); }
+      else ab.classList.add("hidden");
+
+      const cats = ["Alle", ...Array.from(new Set(assets.map(a => a.category).filter(Boolean)))];
+      document.getElementById("cats").innerHTML =
+        cats.map(c => `<button class="chip ${c === activeCat ? "active" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("") +
+        `<button class="chip fav ${favOnly ? "active" : ""}" id="favChip">❤️ Favoriten</button>`;
+
+      const owned = got(), mine = myRatings(), fv = favs(), term = searchTerm.toLowerCase();
+      let list = assets.filter(a => {
+        const catOk = activeCat === "Alle" || a.category === activeCat;
+        const sOk = !term || (a.title || "").toLowerCase().includes(term) || (a.description || "").toLowerCase().includes(term);
+        const fOk = !favOnly || fv.includes(a.id);
+        return catOk && sOk && fOk;
+      });
+      const avgOf = (a) => a.rating_count ? (a.rating_sum / a.rating_count) : 0;
+      if (sortBy === "beliebt") list.sort((a, b) => avgOf(b) - avgOf(a));
+      else if (sortBy === "geholt") list.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
+      else list.sort((a, b) => b.id - a.id);
+      list.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)); // gepinnte oben
+
+      const g = document.getElementById("grid");
+      document.getElementById("empty").classList.toggle("hidden", list.length > 0);
+      g.innerHTML = list.map(a => {
+        const has = owned.includes(a.id), fav = fv.includes(a.id), dl = fixUrl(a.download_url);
+        const cnt = a.rating_count || 0, avg = cnt ? (a.rating_sum / cnt) : 0, myVote = mine[a.id] || 0;
+        const stars = [1,2,3,4,5].map(n =>
+          `<button class="s ${(myVote ? myVote : Math.round(avg)) >= n ? "on" : ""}" data-star="${n}" data-asset="${a.id}">★</button>`
+        ).join("");
+        return `<div class="card">
+          <button class="fav-btn ${fav ? "on" : ""}" data-fav="${a.id}">${fav ? "❤️" : "🤍"}</button>
+          ${a.pinned ? `<span class="badge-new" style="background:var(--gold);color:#fff;">📌 GEPINNT</span>` : (isNew(a) ? `<span class="badge-new">NEU</span>` : "")}
+          ${a.category ? `<span class="cat-tag">${esc(a.category)}</span>` : ""}
+          <div class="thumb" data-detail="${a.id}" style="${a.image_url ? `background-image:url('${esc(fixUrl(a.image_url))}')` : ""}">${a.image_url ? "" : "🖼️ kein Bild"}</div>
+          <div class="body">
+            <h3 data-detail="${a.id}">${esc(a.title)}</h3>
+            <p>${esc(a.description || "")}</p>
+            <div class="stars">${stars}</div>
+            <div class="rate-info">${cnt ? `${avg.toFixed(1)} / 5 (${cnt})` : "⭐ noch keine Bewertung"}</div>
+            <div class="meta"><span class="price">${esc(a.price || "Gratis")}</span><span>${a.downloads || 0}x geholt</span></div>
+            ${has ? `<div class="got-tag">✅ Geholt – <a href="${dl}" target="_blank" rel="noopener">Download</a></div>` : `<button class="btn-get" data-get="${a.id}">📦 Holen</button>`}
+            ${isAdmin() ? `<div class="admin-row"><button class="pin" data-pin="${a.id}">${a.pinned ? "📌 lösen" : "📌 anpinnen"}</button><button class="edit" data-edit="${a.id}">✏️ bearbeiten</button><button class="del" data-del="${a.id}">🗑️ löschen</button></div>` : ""}
+          </div>
+        </div>`;
+      }).join("");
+      wire();
+    }
+
+    // ===== MODAL =====
+    function openDetail(id) {
+      const a = assets.find(x => x.id === id);
+      if (!a) return;
+      const g = galleryOf(a), owned = got(), has = owned.includes(id), dl = fixUrl(a.download_url);
+      const cnt = a.rating_count || 0, avg = cnt ? (a.rating_sum / cnt) : 0;
+      const createdAt = a.created_at ? new Date(a.created_at).toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }) : 'Unbekannt';
+
+      const isPopular = (a.downloads || 0) > 5;
+      const isVerified = (a.rating_count || 0) > 3 && avg > 4.0;
+
+      const m = document.getElementById("modal");
+      m.innerHTML = `<div class="modal-box">
+        <div style="padding:14px 20px 0; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:18px;">📦 ${esc(a.title)}</span>
+          <button class="modal-close" id="m-close">✕</button>
+        </div>
+        <div class="modal-main" id="m-main" style="${g[0] ? `background-image:url('${g[0]}')` : ""}">${g[0] ? "" : "🖼️ kein Bild"}</div>
+        ${g.length > 1 ? `<div class="modal-thumbs">${g.map((u, i) => `<img src="${u}" data-img="${u}" class="${i === 0 ? "active" : ""}">`).join("")}</div>` : ""}
+        <div class="modal-body">
+
+          <div class="feature-badges">
+            ${isNew(a) ? `<span class="feature-badge new">🆕 Neu</span>` : ''}
+            ${isPopular ? `<span class="feature-badge popular">🔥 Beliebt</span>` : ''}
+            ${isVerified ? `<span class="feature-badge verified">✅ Verifiziert</span>` : ''}
+            ${a.category ? `<span class="feature-badge">📂 ${esc(a.category)}</span>` : ''}
+            ${a.price && a.price !== 'Gratis' ? `<span class="feature-badge">💰 ${esc(a.price)}</span>` : `<span class="feature-badge">🆓 Gratis</span>`}
+          </div>
+
+          <div class="info-grid">
+            <span><strong>📊 Bewertung:</strong> ${cnt ? `${avg.toFixed(1)} / 5 (${cnt} Stimmen)` : '⭐ noch keine'}</span>
+            <span><strong>📥 Geholt:</strong> ${a.downloads || 0}x</span>
+            <span><strong>📅 Erstellt:</strong> ${createdAt}</span>
+            <span><strong>🏷️ ID:</strong> #${a.id}</span>
+            <span class="full"><strong>📝 Beschreibung:</strong> ${esc(a.description || 'Keine Beschreibung verfügbar.')}</span>
+          </div>
+
+          <div class="compat">
+            <span class="yes">✅ Roblox kompatibel</span>
+            <span class="yes">✅ PC</span>
+            <span class="yes">✅ Mobile</span>
+            <span class="no">❌ Konsole</span>
+          </div>
+
+          <div style="margin-top:4px;">
+            <button class="btn-help" id="helpBtn">🆘 Hilfe beim Installieren</button>
+            <div class="help-note">
+              <strong>📌 Hinweis:</strong> Dies ist nicht unser Video, sondern ein externes Tutorial von YouTube.
+            </div>
+          </div>
+
+          ${has ? `<button class="btn-get" style="margin-top:8px;" onclick="window.open('${dl}','_blank')">⬇️ Download starten</button>` : `<button class="btn-get" data-get="${a.id}" style="margin-top:8px;">📦 Asset holen</button>`}
+          <button class="btn-ghost" data-report="${a.id}" style="margin-top:6px; font-size:13px;">⚠️ Asset melden</button>
+        </div>
+      </div>`;
+      m.classList.remove("hidden");
+      m.onclick = (e) => { if (e.target === m) closeModal(); };
+
+      document.getElementById("helpBtn")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        window.open(HELP_VIDEO_URL, "_blank");
+      });
+
+      document.querySelectorAll("[data-img]").forEach(el => {
+        el.onclick = (e) => {
+          const main = document.getElementById("m-main");
+          if (main) { main.style.backgroundImage = "url('" + el.dataset.img + "')"; }
+          document.querySelectorAll("[data-img]").forEach(x => x.classList.remove("active"));
+          el.classList.add("active");
+        };
+      });
+    }
+
+    function closeModal() { document.getElementById("modal").classList.add("hidden"); }
+
+    // ===== Wire =====
+    function wire() {
+      const sel = document.getElementById("sort");
+      if (sel) { sel.value = sortBy; sel.onchange = () => { sortBy = sel.value; render(); }; }
+      const s = document.getElementById("search");
+      if (s) { s.value = searchTerm; s.oninput = () => { searchTerm = s.value; render(); }; }
+    }
+
+    // ===== Globaler Event-Delegator =====
+    document.addEventListener("click", (e) => {
+      const t = e.target.closest("button,[data-detail],[data-img]");
+      if (!t) return;
+      const id = t.id, d = t.dataset || {};
+
+      if (id === "btn-login" || id === "gate-login" || id === "gate-recheck") return login();
+      if (id === "btn-logout") return logout();
+      if (id === "gate-join") return window.open(INVITE_URL, "_blank");
+      if (id === "btn-add") return saveAsset();
+      if (id === "btn-cancel") return cancelEdit();
+      if (id === "btn-announce") return saveAnnouncement();
+      if (id === "btn-code") return saveCode();
+      if (id === "btn-profile") return openProfile();
+      if (id === "favChip") { favOnly = !favOnly; return render(); }
+      
+      // KONTAKT-BUTTON
+      if (id === "contactBtn") {
+        window.location.href = "./kontakt.html";
+        return;
+      }
+      
+      if (id === "musicBtn") return;
+      if (id === "m-close") return closeModal();
+      if (id === "helpBtn") return;
+
+      if (d.img) {
+        const main = document.getElementById("m-main");
+        if (main) { main.style.backgroundImage = "url('" + d.img + "')";
+          document.querySelectorAll("[data-img]").forEach(x => x.classList.remove("active"));
+          t.classList.add("active"); }
+        return;
+      }
+
+      if (d.get) { getAsset(Number(d.get)); const m = document.getElementById("modal"); if (m && !m.classList.contains("hidden")) closeModal(); return; }
+      if (d.del) return delAsset(Number(d.del));
+      if (d.edit) return startEdit(Number(d.edit));
+      if (d.pin) return togglePin(Number(d.pin));
+      if (d.report) return reportAsset(Number(d.report));
+      if (d.fav) { e.stopPropagation(); return toggleFav(Number(d.fav)); }
+      if (d.cat) { activeCat = d.cat; return render(); }
+      if (typeof d.star !== "undefined") return rate(Number(d.asset), Number(d.star));
+      if (d.detail) return openDetail(Number(d.detail));
+    });
+
+    // ===== Aktionen =====
+    function toggleFav(id) {
+      const f = favs(); const i = f.indexOf(id);
+      if (i < 0) f.push(id); else f.splice(i, 1);
+      localStorage.setItem("favs", JSON.stringify(f)); render();
+    }
+
+    async function getAsset(id) {
+      if (!sb) return toast("Cloud lädt noch, kurz warten...", "err");
+      if (!user) return toast("Bitte zuerst anmelden.", "err");
+      if (unlockCode && localStorage.getItem("unlockOk") !== unlockCode) {
+        const entered = prompt("🔑 Zugangscode eingeben (aus dem Discord):");
+        if (entered === null) return;
+        if (entered.trim() !== unlockCode) return toast("❌ Falscher Code.", "err");
+        localStorage.setItem("unlockOk", unlockCode);
+        toast("🔓 Freigeschaltet!", "ok");
+      }
+      const a = assets.find(x => x.id === id);
+      if (!a) return;
+      const owned = got();
+      if (!owned.includes(id)) { owned.push(id); localStorage.setItem("got", JSON.stringify(owned)); }
+      blip();
+      try { await sb.from("assets").update({ downloads: (a.downloads || 0) + 1 }).eq("id", id); } catch (e) { console.error(e); }
+      sendWebhook({ title: "Neues Asset geholt", description: `**${user.username}** hat **${a.title}** geholt`, color: 0x5865f2, thumbnail: a.image_url ? { url: fixUrl(a.image_url) } : undefined, fields: [a.category ? { name: "Kategorie", value: a.category, inline: true } : null, { name: "Preis", value: a.price || "Gratis", inline: true }].filter(Boolean), timestamp: new Date().toISOString() });
+      toast("✅ Freigeschaltet – viel Spass!", "ok");
+      loadAll();
+    }
+
+    async function rate(id, stars) {
+      if (!sb) return toast("Cloud lädt noch, kurz warten...", "err");
+      const mine = myRatings(), a = assets.find(x => x.id === id);
+      if (!a) return;
+      const prev = mine[id] || 0;
+      let sum = (a.rating_sum || 0), cnt = (a.rating_count || 0);
+      if (prev === 0) { sum += stars; cnt += 1; } else { sum += (stars - prev); }
+      mine[id] = stars; localStorage.setItem("ratings", JSON.stringify(mine));
+      const { error } = await sb.from("assets").update({ rating_sum: sum, rating_count: cnt }).eq("id", id);
+      if (error) return toast("Bewertung fehlgeschlagen: " + error.message, "err");
+      sendWebhook({ title: "Neue Bewertung", description: `**${user ? user.username : "Jemand"}** hat **${a.title}** mit ${stars}/5 bewertet`, color: 0xf4c430, timestamp: new Date().toISOString() });
+      toast("⭐ Danke für deine Bewertung!", "ok");
+      loadAll();
+    }
+
+    function startEdit(id) {
+      const a = assets.find(x => x.id === id);
+      if (!a) return;
+      editingId = id;
+      document.getElementById("f-title").value = a.title || "";
+      document.getElementById("f-desc").value = a.description || "";
+      document.getElementById("f-cat").value = a.category || "";
+      document.getElementById("f-price").value = a.price || "";
+      document.getElementById("f-image").value = a.image_url || "";
+      document.getElementById("f-download").value = a.download_url || "";
+      document.getElementById("f-images").value = a.images || "";
+      document.getElementById("adminTitle").textContent = "✏️ Asset bearbeiten";
+      document.getElementById("btn-add").textContent = "Aktualisieren";
+      document.getElementById("btn-cancel").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function cancelEdit() {
+      editingId = null;
+      ["f-title","f-desc","f-cat","f-price","f-image","f-download","f-images"].forEach(i => document.getElementById(i).value = "");
+      document.getElementById("adminTitle").textContent = "➕ Asset hinzufügen";
+      document.getElementById("btn-add").textContent = "Speichern";
+      document.getElementById("btn-cancel").classList.add("hidden");
+    }
+
+    async function saveAsset() {
+      if (!sb) return toast("Cloud lädt noch, kurz warten...", "err");
+      const title = document.getElementById("f-title").value.trim();
+      const download = document.getElementById("f-download").value.trim();
+      if (!title || !download) return toast("⚠️ Titel und Download-Link sind Pflicht.", "err");
+      const images = document.getElementById("f-images").value.split(",").map(s => fixUrl(s.trim())).filter(Boolean).join(",");
+      const payload = {
+        title, description: document.getElementById("f-desc").value.trim(),
+        category: document.getElementById("f-cat").value.trim() || null,
+        price: document.getElementById("f-price").value.trim() || "Gratis",
+        image_url: fixUrl(document.getElementById("f-image").value.trim()),
+        download_url: fixUrl(download),
+        images: images || null
+      };
+      let error;
+      if (editingId) { ({ error } = await sb.from("assets").update(payload).eq("id", editingId)); }
+      else { ({ error } = await sb.from("assets").insert(payload)); }
+      if (error) return toast("Speichern fehlgeschlagen: " + error.message, "err");
+      toast(editingId ? "✅ Asset aktualisiert." : "✅ Asset gespeichert.", "ok");
+      cancelEdit(); loadAll();
+    }
+
+    async function saveAnnouncement() {
+      if (!sb) return toast("Cloud lädt noch, kurz warten...", "err");
+      const val = document.getElementById("f-announce").value.trim();
+      const { error } = await sb.from("settings").upsert({ id: 1, announcement: val });
+      if (error) return toast("Banner fehlgeschlagen: " + error.message, "err");
+      toast("📢 Banner gespeichert.", "ok"); loadAll();
+    }
+
+    async function togglePin(id) {
+      if (!sb) return;
+      const a = assets.find(x => x.id === id); if (!a) return;
+      const { error } = await sb.from("assets").update({ pinned: !a.pinned }).eq("id", id);
+      if (error) return toast("Fehler: " + error.message, "err");
+      toast(a.pinned ? "📌 Losgelöst." : "📌 Angepinnt.", "ok"); loadAll();
+    }
+
+    async function reportAsset(id) {
+      const a = assets.find(x => x.id === id); if (!a) return;
+      const reason = prompt("⚠️ Warum möchtest du dieses Asset melden?");
+      if (reason === null || !reason.trim()) return;
+      sendWebhook({
+        title: "⚠️ Asset gemeldet", color: 0xc74b66,
+        description: `**${a.title}** wurde gemeldet`,
+        fields: [
+          { name: "Von", value: user ? user.username : "Unbekannt", inline: true },
+          { name: "Grund", value: reason.slice(0, 500) }
+        ],
+        timestamp: new Date().toISOString()
+      });
+      toast("✅ Danke, die Meldung ist raus.", "ok");
+    }
+
+    async function saveCode() {
+      if (!sb) return toast("Cloud lädt noch, kurz warten...", "err");
+      const val = document.getElementById("f-code").value.trim();
+      const { error } = await sb.from("settings").upsert({ id: 1, unlock_code: val });
+      if (error) return toast("Code fehlgeschlagen: " + error.message, "err");
+      toast("🔑 Zugangscode gespeichert.", "ok"); loadAll();
+    }
+
+    function openProfile() {
+      const owned = got(), fv = favs();
+      const ownedAssets = assets.filter(a => owned.includes(a.id));
+      const favAssets = assets.filter(a => fv.includes(a.id));
+      const listHtml = (arr) => arr.length
+        ? `<div class="grid" style="margin-top:8px;">${arr.map(a => {
+            const dl = fixUrl(a.download_url), has = owned.includes(a.id);
+            return `<div class="card"><div class="thumb" data-detail="${a.id}" style="${a.image_url ? `background-image:url('${esc(fixUrl(a.image_url))}')` : ""}">${a.image_url ? "" : "🖼️ kein Bild"}</div><div class="body"><h3 data-detail="${a.id}">${esc(a.title)}</h3>${has ? `<div class="got-tag">✅ Geholt – <a href="${dl}" target="_blank" rel="noopener">Download</a></div>` : `<button class="btn-get" data-get="${a.id}">📦 Holen</button>`}</div></div>`;
+          }).join("")}</div>`
+        : `<p style="color:var(--muted);">Noch nichts hier.</p>`;
+      const m = document.getElementById("modal");
+      m.innerHTML = `<div class="modal-box">
+        <div style="padding:14px 20px 0; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-weight:700; font-size:18px;">👤 ${esc(user ? user.username : "Profil")}</span>
+          <button class="modal-close" id="m-close">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="rate-info">${ownedAssets.length} geholt · ${favAssets.length} Favoriten</div>
+          <h2 style="font-size:17px; margin-top:8px;">📥 Meine geholten Assets</h2>${listHtml(ownedAssets)}
+          <h2 style="font-size:17px;">❤️ Meine Favoriten</h2>${listHtml(favAssets)}
+        </div>
+      </div>`;
+      m.classList.remove("hidden");
+      m.onclick = (e) => { if (e.target === m) closeModal(); };
+    }
+
+    async function delAsset(id) {
+      if (!sb) return toast("Cloud lädt noch, kurz warten...", "err");
+      if (!confirm("Wirklich löschen?")) return;
+      const { error } = await sb.from("assets").delete().eq("id", id);
+      if (error) return toast("Löschen fehlgeschlagen: " + error.message, "err");
+      toast("🗑️ Gelöscht.", "ok"); loadAll();
+    }
+
+    // ===== Musik =====
+    setupMusic();
+
+    // ===== Hintergrund =====
+    (function bg() {
+      const c = document.getElementById("bgCanvas"), x = c.getContext("2d");
+      const cols = ["#cfd7f0", "#b8c7e6", "#a8b8db", "#c2d0e8", "#d6def2"];
+      let W, H, blocks;
+      function init() {
+        W = c.width = innerWidth; H = c.height = innerHeight;
+        blocks = Array.from({ length: 28 }, () => ({
+          x: Math.random() * W, y: Math.random() * H, s: 20 + Math.random() * 40,
+          r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.01,
+          vy: 0.15 + Math.random() * 0.4, col: cols[(Math.random() * cols.length) | 0],
+          a: 0.2 + Math.random() * 0.2
+        }));
+      }
+      function draw() {
+        x.clearRect(0, 0, W, H);
+        for (const b of blocks) {
+          b.y -= b.vy; b.r += b.vr;
+          if (b.y < -b.s) { b.y = H + b.s; b.x = Math.random() * W; }
+          x.save(); x.translate(b.x, b.y); x.rotate(b.r);
+          x.globalAlpha = b.a; x.fillStyle = b.col;
+          x.fillRect(-b.s / 2, -b.s / 2, b.s, b.s);
+          x.restore();
+        }
+        requestAnimationFrame(draw);
+      }
+      addEventListener("resize", init); init(); draw();
+    })();
+
+    // ===== Supabase Init =====
+    async function initSupabase() {
+      try {
+        const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2.45.4?bundle");
+        sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        sb.channel("changes")
+          .on("postgres_changes", { event: "*", schema: "public", table: "assets" }, loadAll)
+          .on("postgres_changes", { event: "*", schema: "public", table: "settings" }, loadAll)
+          .subscribe();
+        await loadAll();
+      } catch (e) { console.error("Supabase Fehler:", e); toast("Cloud nicht erreichbar.", "err"); }
+    }
+
+    // ===== Start =====
+    (async () => {
+      try { await handleAuthRedirect(); } catch (e) { console.error(e); }
+      render();
+      initSupabase();
+    })();
+  </script>
+</body>
+</html>
